@@ -11,6 +11,7 @@
 package com.jakub.footballgame.logic.zdarzenia;
 
 import com.jakub.footballgame.logic.Druzyna;
+import com.jakub.footballgame.logic.efekty.EfektFaulu;
 import com.jakub.footballgame.logic.efekty.IEfekt;
 
 public class Faul implements Zdarzenie {
@@ -24,6 +25,6 @@ public class Faul implements Zdarzenie {
 
 	@Override
 	public IEfekt efektZdarzenia() {
-		return null;
+		return new EfektFaulu(druzynaAtakujaca,numerGracza);
 	}
 }

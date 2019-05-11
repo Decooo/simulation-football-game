@@ -6,4 +6,5 @@
 package com.jakub.footballgame.logic.efekty;
 
 public interface IEfekt {
+	String zwrocEfektZdarzenia();
 }

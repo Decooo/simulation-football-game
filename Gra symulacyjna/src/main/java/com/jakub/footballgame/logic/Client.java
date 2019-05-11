@@ -13,9 +13,10 @@ public class Client {
 		DaneZdarzenia daneZdarzenia = new DaneZdarzenia.Builder()
 				.nazwaZdarzenia(NazwyZdarzen.FAUL)
 				.druzynaAtakujaca(Druzyna.KOMPUTER)
-				.numerGracza(0)
+				.numerGracza(8)
 				.build();
 		Zdarzenie zdarzenie = fabrykaZdarzen.utworzZdarzenie(daneZdarzenia);
+		System.out.println("efekt: = " + zdarzenie.efektZdarzenia().zwrocEfektZdarzenia());
 		System.out.println("zdarzenie.getClass() = " + zdarzenie.getClass());
 	}
 }
