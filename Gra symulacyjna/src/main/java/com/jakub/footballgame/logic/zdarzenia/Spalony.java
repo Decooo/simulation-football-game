@@ -6,6 +6,7 @@
 package com.jakub.footballgame.logic.zdarzenia;
 
 import com.jakub.footballgame.logic.Druzyna;
+import com.jakub.footballgame.logic.efekty.EfektSpalony;
 import com.jakub.footballgame.logic.efekty.IEfekt;
 
 public class Spalony implements Zdarzenie {
@@ -19,6 +20,6 @@ public class Spalony implements Zdarzenie {
 
 	@Override
 	public IEfekt efektZdarzenia() {
-		return null;
+		return new EfektSpalony(druzynaAtakujaca, numerGracza);
 	}
 }

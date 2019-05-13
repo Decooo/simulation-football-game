@@ -11,8 +11,9 @@
 package com.jakub.footballgame.logic.zdarzenia;
 
 import com.jakub.footballgame.logic.Druzyna;
-import com.jakub.footballgame.logic.efekty.EfektFaulu;
-import com.jakub.footballgame.logic.efekty.IEfekt;
+import com.jakub.footballgame.logic.efekty.*;
+
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Faul implements Zdarzenie {
 	private Druzyna druzynaAtakujaca;
@@ -25,6 +26,10 @@ public class Faul implements Zdarzenie {
 
 	@Override
 	public IEfekt efektZdarzenia() {
-		return new EfektFaulu(druzynaAtakujaca,numerGracza);
+		int randomNumer = ThreadLocalRandom.current().nextInt(1, 11);
+		if (randomNumer < 4) return new ZoltaKartka(druzynaAtakujaca, numerGracza);
+		else if (randomNumer < 5)
+			return new CzerwonaKartka(druzynaAtakujaca, numerGracza);
+		else return new EfektFaulu(druzynaAtakujaca, numerGracza);
 	}
 }

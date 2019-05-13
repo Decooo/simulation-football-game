@@ -11,7 +11,12 @@
 package com.jakub.footballgame.logic.zdarzenia;
 
 import com.jakub.footballgame.logic.Druzyna;
+import com.jakub.footballgame.logic.efekty.Gol;
 import com.jakub.footballgame.logic.efekty.IEfekt;
+import com.jakub.footballgame.logic.efekty.ObronaBramkarza;
+import com.jakub.footballgame.logic.efekty.StrzalNiecelny;
+
+import java.util.concurrent.ThreadLocalRandom;
 
 public class RzutWolny extends ZdarzeniaZakonczoneStrzalem {
 
@@ -21,6 +26,10 @@ public class RzutWolny extends ZdarzeniaZakonczoneStrzalem {
 
 	@Override
 	public IEfekt efektZdarzenia() {
-		return null;
+		int randomNumer = ThreadLocalRandom.current().nextInt(1, 11);
+		if (randomNumer < 3) return new Gol(this.getDruzynaAtakujaca(), this.getNumerGraczaStrzelajacego());
+		else if (randomNumer < 7)
+			return new ObronaBramkarza(this.getDruzynaAtakujaca(), this.getNumerGraczaStrzelajacego());
+		else return new StrzalNiecelny(this.getDruzynaAtakujaca(), this.getNumerGraczaStrzelajacego());
 	}
 }

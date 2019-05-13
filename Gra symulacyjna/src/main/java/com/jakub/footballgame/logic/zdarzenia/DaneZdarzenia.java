@@ -15,7 +15,7 @@ public class DaneZdarzenia {
 	private int silaStrzelca;
 	private int silaBramkarza;
 
-	public DaneZdarzenia(Builder builder) {
+	private DaneZdarzenia(Builder builder) {
 		this.nazwaZdarzenia = builder.nazwaZdarzenia;
 		this.druzynaAtakujaca = builder.druzynaAtakujaca;
 		this.druzynaBroniaca = builder.druzynaBroniaca;
