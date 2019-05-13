@@ -5,13 +5,13 @@
 
 package com.jakub.footballgame.logic.efekty;
 
-import com.jakub.footballgame.logic.Druzyna;
+import com.jakub.footballgame.logic.NazwaDruzyny;
 
 public abstract class Efekt implements IEfekt{
-	private Druzyna druzynaAtakujaca;
+	private NazwaDruzyny druzynaAtakujaca;
 	private int numerGracza;
 
-	public Druzyna getDruzynaAtakujaca() {
+	public NazwaDruzyny getDruzynaAtakujaca() {
 		return druzynaAtakujaca;
 	}
 
@@ -19,7 +19,7 @@ public abstract class Efekt implements IEfekt{
 		return numerGracza;
 	}
 
-	public Efekt(Druzyna druzynaAtakujaca, int numerGracza) {
+	public Efekt(NazwaDruzyny druzynaAtakujaca, int numerGracza) {
 		this.druzynaAtakujaca = druzynaAtakujaca;
 		this.numerGracza = numerGracza;
 	}

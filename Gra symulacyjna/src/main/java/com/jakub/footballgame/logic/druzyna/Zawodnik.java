@@ -5,22 +5,60 @@
 
 package com.jakub.footballgame.logic.druzyna;
 
-import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Zawodnik {
 	public int poziomUmiejetnosci;
 	public PozycjaZawodnika pozycja;
 	public int numerGracza;
+	public int liczbaGoli;
+	public int liczbaZoltychKartek;
+	public int liczbaCzerwonychKartek;
 
 	public Zawodnik(PoziomSilyDruzyny poziomSilyDruzyny, PozycjaZawodnika pozycja, int numerGracza) {
 		this.poziomUmiejetnosci = losujPoziomUmiejetnosci(poziomSilyDruzyny.getValue());
 		this.pozycja = pozycja;
 		this.numerGracza = numerGracza;
+		this.liczbaGoli = 0;
+		this.liczbaZoltychKartek = 0;
+		this.liczbaCzerwonychKartek = 0;
 	}
 
 	private int losujPoziomUmiejetnosci(int poziomUmiejetnosci) {
-		return ThreadLocalRandom.current().nextInt(poziomUmiejetnosci-20, poziomUmiejetnosci + 21);
+		return ThreadLocalRandom.current().nextInt(poziomUmiejetnosci - 20, poziomUmiejetnosci + 21);
+	}
+
+	public Zawodnik(PoziomSilyDruzyny poziomSilyDruzyny, int numerGracza) {
+		this.poziomUmiejetnosci = losujPoziomUmiejetnosci(poziomSilyDruzyny.getValue());
+		this.pozycja = PozycjaZawodnika.NIEOKRESLONA;
+		this.numerGracza = numerGracza;
+		this.liczbaGoli = 0;
+		this.liczbaZoltychKartek = 0;
+		this.liczbaCzerwonychKartek = 0;
+	}
+
+	public int getLiczbaGoli() {
+		return liczbaGoli;
+	}
+
+	public void setLiczbaGoli(int liczbaGoli) {
+		this.liczbaGoli = liczbaGoli;
+	}
+
+	public int getLiczbaZoltychKartek() {
+		return liczbaZoltychKartek;
+	}
+
+	public void setLiczbaZoltychKartek(int liczbaZoltychKartek) {
+		this.liczbaZoltychKartek = liczbaZoltychKartek;
+	}
+
+	public int getLiczbaCzerwonychKartek() {
+		return liczbaCzerwonychKartek;
+	}
+
+	public void setLiczbaCzerwonychKartek(int liczbaCzerwonychKartek) {
+		this.liczbaCzerwonychKartek = liczbaCzerwonychKartek;
 	}
 
 	public int getPoziomUmiejetnosci() {

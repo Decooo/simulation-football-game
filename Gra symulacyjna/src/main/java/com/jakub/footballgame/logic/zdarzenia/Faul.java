@@ -10,16 +10,16 @@
 
 package com.jakub.footballgame.logic.zdarzenia;
 
-import com.jakub.footballgame.logic.Druzyna;
+import com.jakub.footballgame.logic.NazwaDruzyny;
 import com.jakub.footballgame.logic.efekty.*;
 
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Faul implements Zdarzenie {
-	private Druzyna druzynaAtakujaca;
+	private NazwaDruzyny druzynaAtakujaca;
 	private int numerGracza;
 
-	public Faul(Druzyna druzynaAtakujaca, int numerGracza) {
+	public Faul(NazwaDruzyny druzynaAtakujaca, int numerGracza) {
 		this.druzynaAtakujaca = druzynaAtakujaca;
 		this.numerGracza = numerGracza;
 	}

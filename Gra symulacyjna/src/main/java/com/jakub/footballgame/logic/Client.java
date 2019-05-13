@@ -5,21 +5,25 @@
 
 package com.jakub.footballgame.logic;
 
+import com.jakub.footballgame.logic.druzyna.Druzyny;
+import com.jakub.footballgame.logic.druzyna.Zawodnik;
 import com.jakub.footballgame.logic.zdarzenia.*;
 
-import java.util.concurrent.ThreadLocalRandom;
+import java.util.ArrayList;
+import java.util.Optional;
 
 public class Client {
 	public static void main(String[] args) throws Exception {
 		IFabrykaZdarzen fabrykaZdarzen = new FabrykaZdarzen();
 		DaneZdarzenia daneZdarzenia = new DaneZdarzenia.Builder()
 				.nazwaZdarzenia(NazwyZdarzen.FAUL)
-				.druzynaAtakujaca(Druzyna.KOMPUTER)
+				.druzynaAtakujaca(NazwaDruzyny.KOMPUTER)
 				.numerGracza(8)
 				.build();
 		Zdarzenie zdarzenie = fabrykaZdarzen.utworzZdarzenie(daneZdarzenia);
 		System.out.println("efekt: = " + zdarzenie.efektZdarzenia().zwrocEfektZdarzenia());
 		System.out.println("zdarzenie.getClass() = " + zdarzenie.getClass());
+
 	}
 
 	public void game(){

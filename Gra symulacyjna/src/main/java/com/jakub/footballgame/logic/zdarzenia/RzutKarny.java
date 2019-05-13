@@ -10,7 +10,7 @@
 
 package com.jakub.footballgame.logic.zdarzenia;
 
-import com.jakub.footballgame.logic.Druzyna;
+import com.jakub.footballgame.logic.NazwaDruzyny;
 import com.jakub.footballgame.logic.efekty.Gol;
 import com.jakub.footballgame.logic.efekty.IEfekt;
 import com.jakub.footballgame.logic.efekty.ObronaBramkarza;
@@ -20,7 +20,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class RzutKarny extends ZdarzeniaZakonczoneStrzalem {
 
-	public RzutKarny(Druzyna druzynaAtakujaca, Druzyna druzynaBroniaca, int numerGraczaStrzelajacego, int silaStrzelca, int silaBramkarza) {
+	public RzutKarny(NazwaDruzyny druzynaAtakujaca, NazwaDruzyny druzynaBroniaca, int numerGraczaStrzelajacego, int silaStrzelca, int silaBramkarza) {
 		super(druzynaAtakujaca, druzynaBroniaca, numerGraczaStrzelajacego, silaStrzelca, silaBramkarza);
 	}
 

@@ -5,12 +5,12 @@
 
 package com.jakub.footballgame.logic.zdarzenia;
 
-import com.jakub.footballgame.logic.Druzyna;
+import com.jakub.footballgame.logic.NazwaDruzyny;
 
 public class DaneZdarzenia {
 	private NazwyZdarzen nazwaZdarzenia;
-	private Druzyna druzynaAtakujaca;
-	private Druzyna druzynaBroniaca;
+	private NazwaDruzyny druzynaAtakujaca;
+	private NazwaDruzyny druzynaBroniaca;
 	private int numerGracza;
 	private int silaStrzelca;
 	private int silaBramkarza;
@@ -28,11 +28,11 @@ public class DaneZdarzenia {
 		return nazwaZdarzenia;
 	}
 
-	public Druzyna getDruzynaAtakujaca() {
+	public NazwaDruzyny getDruzynaAtakujaca() {
 		return druzynaAtakujaca;
 	}
 
-	public Druzyna getDruzynaBroniaca() {
+	public NazwaDruzyny getDruzynaBroniaca() {
 		return druzynaBroniaca;
 	}
 
@@ -50,8 +50,8 @@ public class DaneZdarzenia {
 
 	public static class Builder {
 		private NazwyZdarzen nazwaZdarzenia = null;
-		private Druzyna druzynaAtakujaca = null;
-		private Druzyna druzynaBroniaca = null;
+		private NazwaDruzyny druzynaAtakujaca = null;
+		private NazwaDruzyny druzynaBroniaca = null;
 		private int numerGracza = 0;
 		private int silaStrzelca = 0;
 		private int silaBramkarza = 0;
@@ -61,12 +61,12 @@ public class DaneZdarzenia {
 			return this;
 		}
 
-		public Builder druzynaAtakujaca(Druzyna druzynaAtakujaca) {
+		public Builder druzynaAtakujaca(NazwaDruzyny druzynaAtakujaca) {
 			this.druzynaAtakujaca = druzynaAtakujaca;
 			return this;
 		}
 
-		public Builder druzynaBroniaca(Druzyna druzynaBroniaca) {
+		public Builder druzynaBroniaca(NazwaDruzyny druzynaBroniaca) {
 			this.druzynaBroniaca = druzynaBroniaca;
 			return this;
 		}

@@ -5,7 +5,7 @@
 
 package com.jakub.footballgame.logic;
 
-public enum Druzyna {
+public enum NazwaDruzyny {
 	KOMPUTER {
 		@Override
 		public String getValue() {

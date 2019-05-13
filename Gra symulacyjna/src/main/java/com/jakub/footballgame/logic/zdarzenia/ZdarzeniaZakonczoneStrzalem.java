@@ -5,16 +5,16 @@
 
 package com.jakub.footballgame.logic.zdarzenia;
 
-import com.jakub.footballgame.logic.Druzyna;
+import com.jakub.footballgame.logic.NazwaDruzyny;
 
 public abstract class ZdarzeniaZakonczoneStrzalem implements Zdarzenie {
-	private Druzyna druzynaAtakujaca;
-	private Druzyna druzynaBroniaca;
+	private NazwaDruzyny druzynaAtakujaca;
+	private NazwaDruzyny druzynaBroniaca;
 	private int numerGraczaStrzelajacego;
 	private int silaStrzelca;
 	private int silaBramkarza;
 
-	public ZdarzeniaZakonczoneStrzalem(Druzyna druzynaAtakujaca, Druzyna druzynaBroniaca, int numerGraczaStrzelajacego, int silaStrzelca, int silaBramkarza) {
+	public ZdarzeniaZakonczoneStrzalem(NazwaDruzyny druzynaAtakujaca, NazwaDruzyny druzynaBroniaca, int numerGraczaStrzelajacego, int silaStrzelca, int silaBramkarza) {
 		this.druzynaAtakujaca = druzynaAtakujaca;
 		this.druzynaBroniaca = druzynaBroniaca;
 		this.numerGraczaStrzelajacego = numerGraczaStrzelajacego;
@@ -22,19 +22,19 @@ public abstract class ZdarzeniaZakonczoneStrzalem implements Zdarzenie {
 		this.silaBramkarza = silaBramkarza;
 	}
 
-	public Druzyna getDruzynaAtakujaca() {
+	public NazwaDruzyny getDruzynaAtakujaca() {
 		return druzynaAtakujaca;
 	}
 
-	public void setDruzynaAtakujaca(Druzyna druzynaAtakujaca) {
+	public void setDruzynaAtakujaca(NazwaDruzyny druzynaAtakujaca) {
 		this.druzynaAtakujaca = druzynaAtakujaca;
 	}
 
-	public Druzyna getDruzynaBroniaca() {
+	public NazwaDruzyny getDruzynaBroniaca() {
 		return druzynaBroniaca;
 	}
 
-	public void setDruzynaBroniaca(Druzyna druzynaBroniaca) {
+	public void setDruzynaBroniaca(NazwaDruzyny druzynaBroniaca) {
 		this.druzynaBroniaca = druzynaBroniaca;
 	}
 
