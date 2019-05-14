@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>com.jakub.footballgame.logic</OriginalElement>
+  <nodes>
+    <node x="246.0" y="400.0">com.jakub.footballgame.logic.zdarzenia.Strzal</node>
+    <node x="677.0" y="474.0">com.jakub.footballgame.logic.druzyna.Druzyny</node>
+    <node x="191.0" y="474.0">com.jakub.footballgame.logic.zdarzenia.DaneZdarzenia</node>
+    <node x="0.0" y="474.0">com.jakub.footballgame.logic.druzyna.PozycjaZawodnika</node>
+    <node x="283.0" y="242.0">com.jakub.footballgame.logic.zdarzenia.Zdarzenie</node>
+    <node x="121.0" y="400.0">com.jakub.footballgame.logic.zdarzenia.RzutWolny</node>
+    <node x="130.0" y="548.0">com.jakub.footballgame.logic.Client</node>
+    <node x="413.0" y="0.0">com.jakub.footballgame.logic.efekty.IEfekt</node>
+    <node x="387.5" y="321.0">com.jakub.footballgame.logic.zdarzenia.Spalony</node>
+    <node x="524.0" y="321.0">com.jakub.footballgame.logic.zdarzenia.FabrykaZdarzen</node>
+    <node x="0.0" y="400.0">com.jakub.footballgame.logic.zdarzenia.RzutKarny</node>
+    <node x="538.0" y="168.0">com.jakub.footballgame.logic.efekty.EfektFaulu</node>
+    <node x="803.0" y="168.0">com.jakub.footballgame.logic.efekty.ZoltaKartka</node>
+    <node x="661.0" y="168.0">com.jakub.footballgame.logic.efekty.StrzalNiecelny</node>
+    <node x="522.5" y="242.0">com.jakub.footballgame.logic.zdarzenia.IFabrykaZdarzen</node>
+    <node x="86.0" y="168.0">com.jakub.footballgame.logic.efekty.ObronaBramkarza</node>
+    <node x="249.0" y="168.0">com.jakub.footballgame.logic.efekty.EfektSpalony</node>
+    <node x="0.0" y="168.0">com.jakub.footballgame.logic.efekty.Gol</node>
+    <node x="0.0" y="548.0">com.jakub.footballgame.logic.zdarzenia.DaneZdarzenia.Builder</node>
+    <node x="297.5" y="321.0">com.jakub.footballgame.logic.zdarzenia.Faul</node>
+    <node x="701.5" y="242.0">com.jakub.footballgame.logic.druzyna.PoziomSilyDruzyny</node>
+    <node x="532.0" y="474.0">com.jakub.footballgame.logic.druzyna.Zawodnik</node>
+    <node x="69.5" y="321.0">com.jakub.footballgame.logic.zdarzenia.ZdarzeniaZakonczoneStrzalem</node>
+    <node x="414.5" y="79.0">com.jakub.footballgame.logic.efekty.Efekt</node>
+    <node x="813.0" y="474.0">com.jakub.footballgame.logic.druzyna.Taktyka</node>
+    <node x="385.0" y="168.0">com.jakub.footballgame.logic.efekty.CzerwonaKartka</node>
+    <node x="362.0" y="474.0">com.jakub.footballgame.logic.zdarzenia.NazwyZdarzen</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="com.jakub.footballgame.logic.efekty.ZoltaKartka" target="com.jakub.footballgame.logic.efekty.Efekt">
+      <point x="0.0" y="-14.5" />
+      <point x="857.0" y="128.0" />
+      <point x="483.2142857142857" y="128.0" />
+      <point x="31.714285714285722" y="14.5" />
+    </edge>
+    <edge source="com.jakub.footballgame.logic.zdarzenia.FabrykaZdarzen" target="com.jakub.footballgame.logic.zdarzenia.IFabrykaZdarzen">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="com.jakub.footballgame.logic.zdarzenia.RzutWolny" target="com.jakub.footballgame.logic.zdarzenia.ZdarzeniaZakonczoneStrzalem">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="com.jakub.footballgame.logic.zdarzenia.RzutKarny" target="com.jakub.footballgame.logic.zdarzenia.ZdarzeniaZakonczoneStrzalem">
+      <point x="0.0" y="-14.5" />
+      <point x="50.5" y="375.0" />
+      <point x="104.16666666666666" y="375.0" />
+      <point x="-69.33333333333333" y="14.5" />
+    </edge>
+    <edge source="com.jakub.footballgame.logic.zdarzenia.Faul" target="com.jakub.footballgame.logic.zdarzenia.Zdarzenie">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="com.jakub.footballgame.logic.zdarzenia.Spalony" target="com.jakub.footballgame.logic.zdarzenia.Zdarzenie">
+      <point x="0.0" y="-14.5" />
+      <point x="432.5" y="296.0" />
+      <point x="365.5" y="296.0" />
+      <point x="33.0" y="14.5" />
+    </edge>
+    <edge source="com.jakub.footballgame.logic.efekty.StrzalNiecelny" target="com.jakub.footballgame.logic.efekty.Efekt">
+      <point x="0.0" y="-14.5" />
+      <point x="722.0" y="138.0" />
+      <point x="472.6428571428571" y="138.0" />
+      <point x="21.14285714285711" y="14.5" />
+    </edge>
+    <edge source="com.jakub.footballgame.logic.efekty.CzerwonaKartka" target="com.jakub.footballgame.logic.efekty.Efekt">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="com.jakub.footballgame.logic.zdarzenia.Strzal" target="com.jakub.footballgame.logic.zdarzenia.ZdarzeniaZakonczoneStrzalem">
+      <point x="0.0" y="-14.5" />
+      <point x="284.0" y="375.0" />
+      <point x="242.83333333333331" y="375.0" />
+      <point x="69.33333333333331" y="14.5" />
+    </edge>
+    <edge source="com.jakub.footballgame.logic.zdarzenia.ZdarzeniaZakonczoneStrzalem" target="com.jakub.footballgame.logic.zdarzenia.Zdarzenie">
+      <point x="0.0" y="-14.5" />
+      <point x="173.5" y="296.0" />
+      <point x="299.5" y="296.0" />
+      <point x="-33.0" y="14.5" />
+    </edge>
+    <edge source="com.jakub.footballgame.logic.efekty.EfektFaulu" target="com.jakub.footballgame.logic.efekty.Efekt">
+      <point x="0.0" y="-14.5" />
+      <point x="589.5" y="148.0" />
+      <point x="462.07142857142856" y="148.0" />
+      <point x="10.571428571428555" y="14.5" />
+    </edge>
+    <edge source="com.jakub.footballgame.logic.efekty.Efekt" target="com.jakub.footballgame.logic.efekty.IEfekt">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="com.jakub.footballgame.logic.efekty.Gol" target="com.jakub.footballgame.logic.efekty.Efekt">
+      <point x="0.0" y="-14.5" />
+      <point x="33.0" y="128.0" />
+      <point x="419.7857142857143" y="128.0" />
+      <point x="-31.714285714285722" y="14.5" />
+    </edge>
+    <edge source="com.jakub.footballgame.logic.efekty.EfektSpalony" target="com.jakub.footballgame.logic.efekty.Efekt">
+      <point x="0.0" y="-14.5" />
+      <point x="307.0" y="148.0" />
+      <point x="440.92857142857144" y="148.0" />
+      <point x="-10.571428571428555" y="14.5" />
+    </edge>
+    <edge source="com.jakub.footballgame.logic.efekty.ObronaBramkarza" target="com.jakub.footballgame.logic.efekty.Efekt">
+      <point x="0.0" y="-14.5" />
+      <point x="157.5" y="138.0" />
+      <point x="430.35714285714283" y="138.0" />
+      <point x="-21.142857142857167" y="14.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="455.5" y="288.5" />
+  <SelectedNodes />
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
