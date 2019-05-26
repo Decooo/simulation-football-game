@@ -12,8 +12,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 @Controller
-public class MainVievController implements Initializable {
-
+public class TacticsViewController implements Initializable {
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle) {
 
