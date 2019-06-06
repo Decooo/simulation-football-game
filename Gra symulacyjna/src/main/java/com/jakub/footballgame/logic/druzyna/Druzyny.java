@@ -10,8 +10,8 @@ import java.util.Optional;
 
 public class Druzyny {
 
-	public static ArrayList<Zawodnik> zawodnicyDruzynyKomputera;
-	public static ArrayList<Zawodnik> zawodnicyDruzynyGracza;
+	private static ArrayList<Zawodnik> zawodnicyDruzynyKomputera;
+	private static ArrayList<Zawodnik> zawodnicyDruzynyGracza;
 
 	public static ArrayList<Zawodnik> getZawodnicyDruzynyKomputera() {
 		return zawodnicyDruzynyKomputera;
