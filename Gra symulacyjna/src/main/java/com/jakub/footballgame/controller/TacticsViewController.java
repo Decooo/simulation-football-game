@@ -5,30 +5,32 @@
 
 package com.jakub.footballgame.controller;
 
+import com.jakub.footballgame.controller.tableModel.ZawodnikTableObject;
 import com.jakub.footballgame.logic.druzyna.*;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.Node;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import org.springframework.stereotype.Controller;
 
 import java.net.URL;
-import java.util.List;
-import java.util.Optional;
-import java.util.Random;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
+
+import static javafx.scene.layout.GridPane.getColumnIndex;
+import static javafx.scene.layout.GridPane.getRowIndex;
 
 @Controller
 public class TacticsViewController implements Initializable {
@@ -36,17 +38,24 @@ public class TacticsViewController implements Initializable {
 	private Random random = new Random();
 	private Taktyka[] taktyka = Taktyka.values();
 	private PoziomSilyDruzyny[] poziomSilyDruzyny = PoziomSilyDruzyny.values();
+	private HashMap<String, PozycjaZawodnika> pozycje = new HashMap<>();
+	private HashMap<String, Integer[]> miejsceRysowaniaPozycji = new HashMap<>();
 
 	@FXML
 	private GridPane gridKomputera;
 	@FXML
-	private TableView<Zawodnik> tableZawodnicy;
+	private GridPane gridGracza;
 	@FXML
-	private TableColumn<Zawodnik, Integer> colNumer;
+	private TableView<ZawodnikTableObject> tableZawodnicy;
 	@FXML
-	private TableColumn<Zawodnik, Integer> colSila;
+	private TableColumn<ZawodnikTableObject, Integer> colNumer;
+	@FXML
+	private TableColumn<ZawodnikTableObject, Integer> colSila;
+	@FXML
+	private TableColumn<ZawodnikTableObject, ZawodnikTableObject> colPozycja;
 
-	private ObservableList<Zawodnik> listaZawodnikowGracza = FXCollections.observableArrayList();
+	private ObservableList<ZawodnikTableObject> listaZawodnikowGracza = FXCollections.observableArrayList();
+	private ObservableList<String> listaPozycji;
 
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -59,11 +68,14 @@ public class TacticsViewController implements Initializable {
 	}
 
 	private void wczytajZawodnikowGracza() {
-		colNumer.setCellValueFactory(new PropertyValueFactory<>("numerGracza"));
-		colSila.setCellValueFactory(new PropertyValueFactory<>("poziomUmiejetnosci"));
+		colNumer.setCellValueFactory(new PropertyValueFactory<>("numer"));
+		colSila.setCellValueFactory(new PropertyValueFactory<>("sila"));
+		colPozycja.setCellValueFactory(param -> new SimpleObjectProperty<>(param.getValue()));
 
+		dodanieComboBoxaZPozycja();
 		listaZawodnikowGracza.clear();
-		listaZawodnikowGracza.addAll(Druzyny.getZawodnicyDruzynyGracza());
+		ZawodnikTableObject zawodnikTableObject = new ZawodnikTableObject();
+		listaZawodnikowGracza = zawodnikTableObject.zawodnikTableObject(Druzyny.getZawodnicyDruzynyGracza());
 		tableZawodnicy.setItems(listaZawodnikowGracza);
 	}
 
@@ -130,13 +142,13 @@ public class TacticsViewController implements Initializable {
 			rysujZpominieciemSrodkowejPozycji(zawodnicy, numerLinii, i);
 		} else if (zawodnicy.size() == 3) {
 			int wariant = random.nextInt(2);
-			if(wariant == 1){
+			if (wariant == 1) {
 				AtomicInteger i = new AtomicInteger(1);
 				zawodnicy.forEach(zawodnik -> {
 					gridKomputera.add(rysujPilkarza(zawodnik.getPoziomUmiejetnosci()), i.get(), numerLinii);
 					i.getAndIncrement();
 				});
-			}else{
+			} else {
 				AtomicInteger i = new AtomicInteger(0);
 				zawodnicy.forEach(zawodnik -> {
 					gridKomputera.add(rysujPilkarza(zawodnik.getPoziomUmiejetnosci()), i.get(), numerLinii);
@@ -172,4 +184,123 @@ public class TacticsViewController implements Initializable {
 	private PoziomSilyDruzyny losujPoziomSilyDruzyny() {
 		return poziomSilyDruzyny[random.nextInt(poziomSilyDruzyny.length)];
 	}
+
+	private void dodanieComboBoxaZPozycja() {
+		wypelnienieListyPozycji();
+		colPozycja.setCellFactory(param -> new TableCell<>() {
+			@Override
+			protected void updateItem(ZawodnikTableObject item, boolean empty) {
+				super.updateItem(item, empty);
+				if (empty) {
+					setText(null);
+				} else {
+					ComboBox<String> cb = new ComboBox<>(listaPozycji);
+					cb.getSelectionModel().select(0);
+					cb.getSelectionModel().selectedItemProperty().addListener((ChangeListener<String>) (observable, oldValue, newValue) -> {
+						if (!newValue.equals("")) {
+							boolean isAlreadySetPosition = false;
+							for (ZawodnikTableObject zaw : listaZawodnikowGracza) {
+								if (zaw.getPozycja().equals(newValue)) {
+									isAlreadySetPosition = true;
+									break;
+								}
+							}
+							if (!isAlreadySetPosition) {
+								item.pozycjaProperty().set(newValue);
+								narysujZawodnikaNaPlanszy(newValue);
+								if (!oldValue.equals("")) usunStaraPozycjeZPlanszy(oldValue);
+							} else {
+								showAlertPositionAlreadySet();
+								cb.getSelectionModel().select(0);
+								cb.getSelectionModel().select(listaPozycji.indexOf(oldValue));
+							}
+						} else if (!oldValue.equals("")) {
+							usunStaraPozycjeZPlanszy(oldValue);
+							item.pozycjaProperty().set(newValue);
+						}
+						else item.pozycjaProperty().set(newValue);
+					});
+					setGraphic(cb);
+					setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
+				}
+			}
+
+			private void showAlertPositionAlreadySet() {
+				Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+				alert.setTitle("Błąd");
+				alert.setHeaderText(null);
+				alert.setContentText("Na wybranej pozycji został już ustawiony inny gracz");
+				alert.showAndWait();
+			}
+		});
+	}
+
+	private void usunStaraPozycjeZPlanszy(String pozycja) {
+		Integer[] pozycjaNaPlanszy = miejsceRysowaniaPozycji.get(pozycja);
+		for (Node node : gridGracza.getChildren()) {
+			if (node instanceof Pane
+					&& getColumnIndex(node).equals(pozycjaNaPlanszy[0])
+					&& getRowIndex(node).equals(pozycjaNaPlanszy[1])) {
+				gridGracza.getChildren().remove(((Pane)node));
+				break;
+			}
+		}
+	}
+
+	private void narysujZawodnikaNaPlanszy(String pozycja) {
+		Integer[] pozycjaNaPlanszy = miejsceRysowaniaPozycji.get(pozycja);
+		Optional<ZawodnikTableObject> zawodnik = listaZawodnikowGracza.stream()
+				.filter(z -> z.getPozycja().equals(pozycja))
+				.findFirst();
+		zawodnik.ifPresent(z -> gridGracza.add(rysujPilkarza(z.getSila()), pozycjaNaPlanszy[0], pozycjaNaPlanszy[1]));
+	}
+
+	private void wypelnienieListyPozycji() {
+		pozycje.put("", PozycjaZawodnika.NIEOKRESLONA);
+		pozycje.put("Bramkarz", PozycjaZawodnika.BRAMKARZ);
+
+		pozycje.put("Lewy obrońca", PozycjaZawodnika.OBRONCA);
+		pozycje.put("Lewy środkowy obrońca", PozycjaZawodnika.OBRONCA);
+		pozycje.put("Srodkowy obrońca", PozycjaZawodnika.OBRONCA);
+		pozycje.put("Prawy srodkowy obrońca", PozycjaZawodnika.OBRONCA);
+		pozycje.put("Prawy obrońca", PozycjaZawodnika.OBRONCA);
+
+		pozycje.put("Lewy pomocnik", PozycjaZawodnika.POMOCNIK);
+		pozycje.put("Lewy środkowy pomocnik", PozycjaZawodnika.POMOCNIK);
+		pozycje.put("Srodkowy pomocnik", PozycjaZawodnika.POMOCNIK);
+		pozycje.put("Prawy srodkowy pomocnik", PozycjaZawodnika.POMOCNIK);
+		pozycje.put("Prawy pomocnik", PozycjaZawodnika.POMOCNIK);
+
+		pozycje.put("Lewy napastnik", PozycjaZawodnika.NAPASTNIK);
+		pozycje.put("Lewy środkowy napastnik", PozycjaZawodnika.NAPASTNIK);
+		pozycje.put("Srodkowy napastnik", PozycjaZawodnika.NAPASTNIK);
+		pozycje.put("Prawy srodkowy napastnik", PozycjaZawodnika.NAPASTNIK);
+		pozycje.put("Prawy napastnik", PozycjaZawodnika.NAPASTNIK);
+
+		listaPozycji = FXCollections.observableArrayList(pozycje.keySet());
+		wypelnienieMiejscRysowaniaPozycji();
+	}
+
+	private void wypelnienieMiejscRysowaniaPozycji() {
+		miejsceRysowaniaPozycji.put("Bramkarz", new Integer[]{2, 3});
+
+		miejsceRysowaniaPozycji.put("Lewy obrońca", new Integer[]{0, 2});
+		miejsceRysowaniaPozycji.put("Lewy środkowy obrońca", new Integer[]{1, 2});
+		miejsceRysowaniaPozycji.put("Srodkowy obrońca", new Integer[]{2, 2});
+		miejsceRysowaniaPozycji.put("Prawy srodkowy obrońca", new Integer[]{3, 2});
+		miejsceRysowaniaPozycji.put("Prawy obrońca", new Integer[]{4, 2});
+
+		miejsceRysowaniaPozycji.put("Lewy pomocnik", new Integer[]{0, 1});
+		miejsceRysowaniaPozycji.put("Lewy środkowy pomocnik", new Integer[]{1, 1});
+		miejsceRysowaniaPozycji.put("Srodkowy pomocnik", new Integer[]{2, 1});
+		miejsceRysowaniaPozycji.put("Prawy srodkowy pomocnik", new Integer[]{3, 1});
+		miejsceRysowaniaPozycji.put("Prawy pomocnik", new Integer[]{4, 1});
+
+		miejsceRysowaniaPozycji.put("Lewy napastnik", new Integer[]{0, 0});
+		miejsceRysowaniaPozycji.put("Lewy środkowy napastnik", new Integer[]{1, 0});
+		miejsceRysowaniaPozycji.put("Srodkowy napastnik", new Integer[]{2, 0});
+		miejsceRysowaniaPozycji.put("Prawy srodkowy napastnik", new Integer[]{3, 0});
+		miejsceRysowaniaPozycji.put("Prawy napastnik", new Integer[]{4, 0});
+	}
+
 }
