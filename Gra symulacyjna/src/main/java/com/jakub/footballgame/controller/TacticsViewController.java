@@ -5,12 +5,15 @@
 
 package com.jakub.footballgame.controller;
 
+import com.jakub.footballgame.config.FxmlView;
+import com.jakub.footballgame.config.StageManager;
 import com.jakub.footballgame.controller.tableModel.ZawodnikTableObject;
 import com.jakub.footballgame.logic.druzyna.*;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
@@ -22,6 +25,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Controller;
 
 import java.net.URL;
@@ -29,11 +34,12 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
-import static javafx.scene.layout.GridPane.getColumnIndex;
-import static javafx.scene.layout.GridPane.getRowIndex;
-
 @Controller
 public class TacticsViewController implements Initializable {
+
+	@Lazy
+	@Autowired
+	private StageManager stageManager;
 
 	private Random random = new Random();
 	private Taktyka[] taktyka = Taktyka.values();
@@ -187,6 +193,7 @@ public class TacticsViewController implements Initializable {
 
 	private void dodanieComboBoxaZPozycja() {
 		wypelnienieListyPozycji();
+
 		colPozycja.setCellFactory(param -> new TableCell<>() {
 			@Override
 			protected void updateItem(ZawodnikTableObject item, boolean empty) {
@@ -207,18 +214,16 @@ public class TacticsViewController implements Initializable {
 							}
 							if (!isAlreadySetPosition) {
 								item.pozycjaProperty().set(newValue);
-								narysujZawodnikaNaPlanszy(newValue);
-								if (!oldValue.equals("")) usunStaraPozycjeZPlanszy(oldValue);
 							} else {
 								showAlertPositionAlreadySet();
-								cb.getSelectionModel().select(0);
+								item.pozycjaProperty().set(newValue);
 								cb.getSelectionModel().select(listaPozycji.indexOf(oldValue));
 							}
 						} else if (!oldValue.equals("")) {
-							usunStaraPozycjeZPlanszy(oldValue);
 							item.pozycjaProperty().set(newValue);
-						}
-						else item.pozycjaProperty().set(newValue);
+						} else item.pozycjaProperty().set(newValue);
+
+						odswiezPlanszeGracza();
 					});
 					setGraphic(cb);
 					setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
@@ -235,24 +240,30 @@ public class TacticsViewController implements Initializable {
 		});
 	}
 
-	private void usunStaraPozycjeZPlanszy(String pozycja) {
-		Integer[] pozycjaNaPlanszy = miejsceRysowaniaPozycji.get(pozycja);
-		for (Node node : gridGracza.getChildren()) {
-			if (node instanceof Pane
-					&& getColumnIndex(node).equals(pozycjaNaPlanszy[0])
-					&& getRowIndex(node).equals(pozycjaNaPlanszy[1])) {
-				gridGracza.getChildren().remove(((Pane)node));
-				break;
-			}
+	private void odswiezPlanszeGracza() {
+		usunStarePozycjeZPlanszy();
+		narysujZawodnikowNaPlanszy();
+	}
+
+	private void usunStarePozycjeZPlanszy() {
+		ObservableList<Node> nodes = gridGracza.getChildren();
+		List<Node> node = nodes.stream()
+				.filter(n -> !(n instanceof Pane))
+				.collect(Collectors.toList());
+		gridGracza.getChildren().clear();
+		for (Node aNode : node) {
+			gridGracza.getChildren().addAll(aNode);
 		}
 	}
 
-	private void narysujZawodnikaNaPlanszy(String pozycja) {
-		Integer[] pozycjaNaPlanszy = miejsceRysowaniaPozycji.get(pozycja);
-		Optional<ZawodnikTableObject> zawodnik = listaZawodnikowGracza.stream()
-				.filter(z -> z.getPozycja().equals(pozycja))
-				.findFirst();
-		zawodnik.ifPresent(z -> gridGracza.add(rysujPilkarza(z.getSila()), pozycjaNaPlanszy[0], pozycjaNaPlanszy[1]));
+	private void narysujZawodnikowNaPlanszy() {
+		List<ZawodnikTableObject> zawodnicy = listaZawodnikowGracza.stream()
+				.filter(z -> !z.getPozycja().equals(""))
+				.collect(Collectors.toList());
+		for (ZawodnikTableObject zaw : zawodnicy) {
+			Integer[] pozycjaNaPlanszy = miejsceRysowaniaPozycji.get(zaw.getPozycja());
+			gridGracza.add(rysujPilkarza(zaw.getSila()), pozycjaNaPlanszy[0], pozycjaNaPlanszy[1]);
+		}
 	}
 
 	private void wypelnienieListyPozycji() {
@@ -303,4 +314,35 @@ public class TacticsViewController implements Initializable {
 		miejsceRysowaniaPozycji.put("Prawy napastnik", new Integer[]{4, 0});
 	}
 
+	public void rozpocznijMecz(ActionEvent actionEvent) {
+		long liczbaGraczyBezPozycji = listaZawodnikowGracza.stream()
+				.filter(z -> z.getPozycja().equals(""))
+				.count();
+		if (liczbaGraczyBezPozycji > 0)
+			alertNieUstawionaPozycja();
+		else {
+			zapiszPozycjeGraczy();
+			stageManager.switchScene(FxmlView.MATCHVIEW);
+		}
+
+	}
+
+	private void zapiszPozycjeGraczy() {
+		for (int i = 0; i < Druzyny.getZawodnicyDruzynyGracza().size(); i++) {
+			int numer = Druzyny.getZawodnicyDruzynyGracza().get(i).getNumerGracza();
+			Optional<ZawodnikTableObject> zaw = listaZawodnikowGracza.stream()
+					.filter(z -> z.getNumer() == numer)
+					.findFirst();
+			final int index = i;
+			zaw.ifPresent(z -> Druzyny.getZawodnicyDruzynyGracza().get(index).setPozycja(pozycje.get(z.getPozycja())));
+		}
+	}
+
+	private void alertNieUstawionaPozycja() {
+		Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+		alert.setTitle("Błąd");
+		alert.setHeaderText(null);
+		alert.setContentText("Nie można rozpocząć meczu, ponieważ nie wszyscy zawodnicy mają wybraną pozycję");
+		alert.showAndWait();
+	}
 }

@@ -18,7 +18,7 @@ public enum FxmlView {
 		public String getFxmlFile() {
 			return "/fxml/mainview.fxml";
 		}
-	},TACTICSVIEW {
+	}, TACTICSVIEW {
 		@Override
 		public String getTitle() {
 			return getStringFromResourceBundle("tacticsview.title");
@@ -27,6 +27,16 @@ public enum FxmlView {
 		@Override
 		public String getFxmlFile() {
 			return "/fxml/tacticsview.fxml";
+		}
+	}, MATCHVIEW {
+		@Override
+		public String getTitle() {
+			return getStringFromResourceBundle("matchview.title");
+		}
+
+		@Override
+		public String getFxmlFile() {
+			return "/fxml/matchview.fxml";
 		}
 	};
 

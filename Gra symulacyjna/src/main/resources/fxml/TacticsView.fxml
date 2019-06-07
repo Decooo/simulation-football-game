@@ -40,7 +40,7 @@
             <TableColumn fx:id="colPozycja" prefWidth="185.0" style="-fx-alignment: center;" text="Przypisana pozycja" />
             </columns>
         </TableView>
-        <Button layoutX="536.0" layoutY="570.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="208.0" style="-fx-background-color: ORANGE;" text="Rozpocznij mecz">
+        <Button layoutX="536.0" layoutY="570.0" mnemonicParsing="false" onAction="#rozpocznijMecz" prefHeight="35.0" prefWidth="208.0" style="-fx-background-color: ORANGE;" text="Rozpocznij mecz">
             <font>
                 <Font name="System Bold" size="15.0" />
             </font>
