@@ -6,6 +6,7 @@
 package com.jakub.footballgame.controller;
 
 import com.jakub.footballgame.logic.druzyna.Druzyny;
+import com.jakub.footballgame.logic.druzyna.PozycjaZawodnika;
 import com.jakub.footballgame.logic.druzyna.Zawodnik;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -63,6 +64,14 @@ public class MatchViewController implements Initializable {
 	private Label labelWynikGracza;
 	@FXML
 	private Label labelMinuta;
+	@FXML
+	private Label silaDruzynyGracza;
+	@FXML
+	private Label silaDruzynyKomputera;
+	@FXML
+	private Label taktykaKomputera;
+	@FXML
+	private Label taktykaGracza;
 
 
 	@Override
@@ -70,7 +79,34 @@ public class MatchViewController implements Initializable {
 		wczytajZawodnikowGracza();
 		wczytajZawodnikowKomputera();
 		ustawDaneMeczu();
+		ustawienieStatystyk();
+	}
 
+	private void ustawienieStatystyk() {
+		silaDruzynyGracza.setText(getSilaDruzyny(listaZawodnikowGracza).toString());
+		silaDruzynyKomputera.setText(getSilaDruzyny(listaZawodnikowKomputera).toString());
+		taktykaKomputera.setText(getTaktyka(listaZawodnikowKomputera));
+		taktykaGracza.setText(getTaktyka(listaZawodnikowGracza));
+	}
+
+	private String getTaktyka(ObservableList<Zawodnik> listaZawodnikow) {
+		long liczbaObroncow = listaZawodnikow.stream()
+				.filter(z -> z.getPozycja().equals(PozycjaZawodnika.OBRONCA))
+				.count();
+		long liczbaPomocnikow = listaZawodnikow.stream()
+				.filter(z -> z.getPozycja().equals(PozycjaZawodnika.POMOCNIK))
+				.count();
+		long liczbaNapastnikow = listaZawodnikow.stream()
+				.filter(z -> z.getPozycja().equals(PozycjaZawodnika.NAPASTNIK))
+				.count();
+
+		return liczbaObroncow + "-" + liczbaPomocnikow + "-" + liczbaNapastnikow;
+	}
+
+	private Integer getSilaDruzyny(ObservableList<Zawodnik> listaZawodnikow) {
+		return listaZawodnikow.stream()
+				.map(Zawodnik::getPoziomUmiejetnosci)
+				.reduce(0, Integer::sum);
 	}
 
 	private void ustawDaneMeczu() {
@@ -81,12 +117,14 @@ public class MatchViewController implements Initializable {
 
 	private Integer getWynikGracza() {
 		return listaZawodnikowGracza.stream()
-				.map(Zawodnik::getLiczbaGoli).reduce(0, Integer::sum);
+				.map(Zawodnik::getLiczbaGoli)
+				.reduce(0, Integer::sum);
 	}
 
 	private Integer getWynikKomputera() {
 		return listaZawodnikowKomputera.stream()
-				.map(Zawodnik::getLiczbaGoli).reduce(0, Integer::sum);
+				.map(Zawodnik::getLiczbaGoli)
+				.reduce(0, Integer::sum);
 	}
 
 	private void wczytajZawodnikowGracza() {

@@ -63,5 +63,45 @@
             <TableColumn fx:id="colCZKG" prefWidth="41.0" style="-fx-alignment: center;" text="CZK" />
          </columns>
       </TableView>
+      <Label layoutX="32.0" layoutY="470.0" text="Łączna siła drużyny: ">
+         <font>
+            <Font name="System Bold Italic" size="15.0" />
+         </font>
+      </Label>
+      <Label layoutX="823.0" layoutY="480.0" text="Łączna siła drużyny: ">
+         <font>
+            <Font name="System Bold Italic" size="15.0" />
+         </font>
+      </Label>
+      <Label layoutX="66.0" layoutY="516.0" text="Taktyka: ">
+         <font>
+            <Font name="System Bold Italic" size="15.0" />
+         </font>
+      </Label>
+      <Label fx:id="silaDruzynyGracza" layoutX="1014.0" layoutY="478.0" text="0Q" textFill="RED">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="silaDruzynyKomputera" layoutX="225.0" layoutY="467.0" text="0Q" textFill="RED">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="taktykaKomputera" layoutX="214.0" layoutY="513.0" text="4-4-2" textFill="RED">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="taktykaGracza" layoutX="1004.0" layoutY="513.0" text="4-4-2" textFill="RED">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="864.0" layoutY="516.0" text="Taktyka: ">
+         <font>
+            <Font name="System Bold Italic" size="15.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>
