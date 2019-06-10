@@ -1,107 +1,118 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<!--
+  ~ Autor: Jakub Kuśnierz
+  ~ Data: 2019
+  -->
+
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<!--
-  ~ Autor: Jakub Kuśnierz
-  ~ Data: 2019
-  -->
-
 <AnchorPane prefHeight="687.0" prefWidth="1116.0" style="-fx-background-color: #bee6e6;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jakub.footballgame.controller.MatchViewController">
-   <children>
-      <Label layoutX="95.0" layoutY="41.0" text="Drużyna Komputera">
-         <font>
-            <Font name="System Bold Italic" size="15.0" />
-         </font>
-      </Label>
-      <Label layoutX="901.0" layoutY="44.0" text="Drużyna Gracza">
-         <font>
-            <Font name="System Bold Italic" size="15.0" />
-         </font>
-      </Label>
-      <Label fx:id="labelWynikKomputera" layoutX="378.0" layoutY="34.0" text="0" textFill="#0900ff">
-         <font>
-            <Font name="System Bold" size="28.0" />
-         </font>
-      </Label>
-      <Label fx:id="labelWynikGracza" layoutX="736.0" layoutY="34.0" prefHeight="40.0" prefWidth="5.0" text="0" textFill="#2200ff">
-         <font>
-            <Font name="System Bold" size="28.0" />
-         </font>
-      </Label>
-      <Label layoutX="535.0" layoutY="61.0" text="minuta">
-         <font>
-            <Font name="System Italic" size="15.0" />
-         </font>
-      </Label>
-      <Label fx:id="labelMinuta" layoutX="545.0" layoutY="36.0" text="0" textFill="#ff0404">
-         <font>
-            <Font name="System Bold" size="22.0" />
-         </font>
-      </Label>
-      <TableView fx:id="tableGraczeKomputera" layoutX="15.0" layoutY="131.0" prefHeight="307.0" prefWidth="303.0">
-        <columns>
-          <TableColumn fx:id="colNumerK" prefWidth="57.0" style="-fx-alignment: center;" text="Numer" />
-          <TableColumn fx:id="colSilaK" prefWidth="40.0" style="-fx-alignment: center;" text="Siła" />
-            <TableColumn fx:id="colPozycjaK" prefWidth="88.0" style="-fx-alignment: center;" text="Pozycja" />
-            <TableColumn fx:id="colGoleK" prefWidth="43.0" style="-fx-alignment: center;" text="Gole" />
-            <TableColumn fx:id="colZKK" prefWidth="31.0" style="-fx-alignment: center;" text="ŻK" />
-            <TableColumn fx:id="colCZKK" prefWidth="41.0" style="-fx-alignment: center;" text="CZK" />
-        </columns>
-      </TableView>
-      <TableView fx:id="tableGraczeGracza" layoutX="806.0" layoutY="131.0" prefHeight="307.0" prefWidth="303.0">
-         <columns>
-            <TableColumn fx:id="colNumerG" prefWidth="57.0" style="-fx-alignment: center;" text="Numer" />
-            <TableColumn fx:id="colSilaG" prefWidth="40.0" style="-fx-alignment: center;" text="Siła" />
-            <TableColumn fx:id="colPozycjaG" prefWidth="88.0" style="-fx-alignment: center;" text="Pozycja" />
-            <TableColumn fx:id="colGoleG" prefWidth="43.0" style="-fx-alignment: center;" text="Gole" />
-            <TableColumn fx:id="colZKG" prefWidth="31.0" style="-fx-alignment: center;" text="ŻK" />
-            <TableColumn fx:id="colCZKG" prefWidth="41.0" style="-fx-alignment: center;" text="CZK" />
-         </columns>
-      </TableView>
-      <Label layoutX="32.0" layoutY="470.0" text="Łączna siła drużyny: ">
-         <font>
-            <Font name="System Bold Italic" size="15.0" />
-         </font>
-      </Label>
-      <Label layoutX="823.0" layoutY="480.0" text="Łączna siła drużyny: ">
-         <font>
-            <Font name="System Bold Italic" size="15.0" />
-         </font>
-      </Label>
-      <Label layoutX="66.0" layoutY="516.0" text="Taktyka: ">
-         <font>
-            <Font name="System Bold Italic" size="15.0" />
-         </font>
-      </Label>
-      <Label fx:id="silaDruzynyGracza" layoutX="1014.0" layoutY="478.0" text="0Q" textFill="RED">
-         <font>
-            <Font name="System Bold" size="18.0" />
-         </font>
-      </Label>
-      <Label fx:id="silaDruzynyKomputera" layoutX="225.0" layoutY="467.0" text="0Q" textFill="RED">
-         <font>
-            <Font name="System Bold" size="18.0" />
-         </font>
-      </Label>
-      <Label fx:id="taktykaKomputera" layoutX="214.0" layoutY="513.0" text="4-4-2" textFill="RED">
-         <font>
-            <Font name="System Bold" size="18.0" />
-         </font>
-      </Label>
-      <Label fx:id="taktykaGracza" layoutX="1004.0" layoutY="513.0" text="4-4-2" textFill="RED">
-         <font>
-            <Font name="System Bold" size="18.0" />
-         </font>
-      </Label>
-      <Label layoutX="864.0" layoutY="516.0" text="Taktyka: ">
-         <font>
-            <Font name="System Bold Italic" size="15.0" />
-         </font>
-      </Label>
-   </children>
+    <children>
+        <Label layoutX="95.0" layoutY="41.0" text="Drużyna Komputera">
+            <font>
+                <Font name="System Bold Italic" size="15.0" />
+            </font>
+        </Label>
+        <Label layoutX="901.0" layoutY="44.0" text="Drużyna Gracza">
+            <font>
+                <Font name="System Bold Italic" size="15.0" />
+            </font>
+        </Label>
+        <Label fx:id="labelWynikKomputera" layoutX="378.0" layoutY="34.0" text="0" textFill="#0900ff">
+            <font>
+                <Font name="System Bold" size="28.0" />
+            </font>
+        </Label>
+        <Label fx:id="labelWynikGracza" layoutX="736.0" layoutY="34.0" prefHeight="40.0" prefWidth="5.0" text="0" textFill="#2200ff">
+            <font>
+                <Font name="System Bold" size="28.0" />
+            </font>
+        </Label>
+        <Label layoutX="535.0" layoutY="61.0" text="minuta">
+            <font>
+                <Font name="System Italic" size="15.0" />
+            </font>
+        </Label>
+        <Label fx:id="labelMinuta" layoutX="545.0" layoutY="36.0" text="0" textFill="#ff0404">
+            <font>
+                <Font name="System Bold" size="22.0" />
+            </font>
+        </Label>
+        <TableView fx:id="tableGraczeKomputera" layoutX="15.0" layoutY="131.0" prefHeight="307.0" prefWidth="303.0">
+            <columns>
+                <TableColumn fx:id="colNumerK" prefWidth="57.0" style="-fx-alignment: center;" text="Numer" />
+                <TableColumn fx:id="colSilaK" prefWidth="40.0" style="-fx-alignment: center;" text="Siła" />
+                <TableColumn fx:id="colPozycjaK" prefWidth="88.0" style="-fx-alignment: center;" text="Pozycja" />
+                <TableColumn fx:id="colGoleK" prefWidth="43.0" style="-fx-alignment: center;" text="Gole" />
+                <TableColumn fx:id="colZKK" prefWidth="31.0" style="-fx-alignment: center;" text="ŻK" />
+                <TableColumn fx:id="colCZKK" prefWidth="41.0" style="-fx-alignment: center;" text="CZK" />
+            </columns>
+        </TableView>
+        <TableView fx:id="tableGraczeGracza" layoutX="806.0" layoutY="131.0" prefHeight="307.0" prefWidth="303.0">
+            <columns>
+                <TableColumn fx:id="colNumerG" prefWidth="57.0" style="-fx-alignment: center;" text="Numer" />
+                <TableColumn fx:id="colSilaG" prefWidth="40.0" style="-fx-alignment: center;" text="Siła" />
+                <TableColumn fx:id="colPozycjaG" prefWidth="88.0" style="-fx-alignment: center;" text="Pozycja" />
+                <TableColumn fx:id="colGoleG" prefWidth="43.0" style="-fx-alignment: center;" text="Gole" />
+                <TableColumn fx:id="colZKG" prefWidth="31.0" style="-fx-alignment: center;" text="ŻK" />
+                <TableColumn fx:id="colCZKG" prefWidth="41.0" style="-fx-alignment: center;" text="CZK" />
+            </columns>
+        </TableView>
+        <Label layoutX="32.0" layoutY="470.0" text="Łączna siła drużyny: ">
+            <font>
+                <Font name="System Bold Italic" size="15.0" />
+            </font>
+        </Label>
+        <Label layoutX="823.0" layoutY="480.0" text="Łączna siła drużyny: ">
+            <font>
+                <Font name="System Bold Italic" size="15.0" />
+            </font>
+        </Label>
+        <Label layoutX="66.0" layoutY="516.0" text="Taktyka: ">
+            <font>
+                <Font name="System Bold Italic" size="15.0" />
+            </font>
+        </Label>
+        <Label fx:id="silaDruzynyGracza" layoutX="1014.0" layoutY="478.0" text="0Q" textFill="RED">
+            <font>
+                <Font name="System Bold" size="18.0" />
+            </font>
+        </Label>
+        <Label fx:id="silaDruzynyKomputera" layoutX="225.0" layoutY="467.0" text="0Q" textFill="RED">
+            <font>
+                <Font name="System Bold" size="18.0" />
+            </font>
+        </Label>
+        <Label fx:id="taktykaKomputera" layoutX="214.0" layoutY="513.0" text="4-4-2" textFill="RED">
+            <font>
+                <Font name="System Bold" size="18.0" />
+            </font>
+        </Label>
+        <Label fx:id="taktykaGracza" layoutX="1004.0" layoutY="513.0" text="4-4-2" textFill="RED">
+            <font>
+                <Font name="System Bold" size="18.0" />
+            </font>
+        </Label>
+        <Label layoutX="864.0" layoutY="516.0" text="Taktyka: ">
+            <font>
+                <Font name="System Bold Italic" size="15.0" />
+            </font>
+        </Label>
+        <Button fx:id="btnZagrajPonownie" disable="true" layoutX="823.0" layoutY="625.0" mnemonicParsing="false" onAction="#zagrajPonownie" style="-fx-background-color: ORANGE;" text="Zagraj ponownie">
+            <font>
+                <Font name="System Bold" size="15.0" />
+            </font>
+        </Button>
+        <Button layoutX="973.0" layoutY="625.0" mnemonicParsing="false" onAction="#zakonczGre" prefHeight="27.0" prefWidth="132.0" style="-fx-background-color: ORANGE;" text="Zakończ">
+            <font>
+                <Font name="System Bold" size="15.0" />
+            </font>
+        </Button>
+    </children>
 </AnchorPane>

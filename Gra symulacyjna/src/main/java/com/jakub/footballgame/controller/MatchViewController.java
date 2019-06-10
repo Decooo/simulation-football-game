@@ -5,24 +5,37 @@
 
 package com.jakub.footballgame.controller;
 
+import com.jakub.footballgame.config.FxmlView;
+import com.jakub.footballgame.config.StageManager;
 import com.jakub.footballgame.logic.druzyna.Druzyny;
 import com.jakub.footballgame.logic.druzyna.PozycjaZawodnika;
 import com.jakub.footballgame.logic.druzyna.Zawodnik;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.Timer;
+import java.util.TimerTask;
 
 @Controller
 public class MatchViewController implements Initializable {
+
+	@Lazy
+	@Autowired
+	private StageManager stageManager;
 
 	private ObservableList<Zawodnik> listaZawodnikowGracza = FXCollections.observableArrayList();
 	private ObservableList<Zawodnik> listaZawodnikowKomputera = FXCollections.observableArrayList();
@@ -73,6 +86,8 @@ public class MatchViewController implements Initializable {
 	@FXML
 	private Label taktykaGracza;
 
+	@FXML
+	private Button btnZagrajPonownie;
 
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -80,6 +95,40 @@ public class MatchViewController implements Initializable {
 		wczytajZawodnikowKomputera();
 		ustawDaneMeczu();
 		ustawienieStatystyk();
+		wyswietlKomunikatORozpoczeciuMeczu();
+		grajMecz();
+	}
+	
+	private void grajMecz() {
+		Timer timer = new Timer();
+		timer.schedule(new TimerTask() {
+
+			@Override
+			public void run() {
+				wykonajZdarzenieMeczowe();
+				if(minutaMeczu>=90) {
+					timer.cancel();
+					komunikatOZakonczeniuMeczu();
+				}
+			}
+		}, 0l,2500l);
+	}
+
+	private void wyswietlKomunikatORozpoczeciuMeczu() {
+		//TODO implementacja
+	}
+	private void komunikatOZakonczeniuMeczu() {
+		//TODO implementacja
+		btnZagrajPonownie.setDisable(false);
+	}
+
+	private void wykonajZdarzenieMeczowe() {
+		minutaMeczu+=3;
+		//TODO implementacja
+		//ustal zdarzenie
+		//wykonaj zdarzenie
+		//wyświetl raport zdarzenia
+		//zaaktualizuj dane meczu i zawodnikow
 	}
 
 	private void ustawienieStatystyk() {
@@ -151,5 +200,13 @@ public class MatchViewController implements Initializable {
 		listaZawodnikowKomputera.clear();
 		listaZawodnikowKomputera.addAll(Druzyny.getZawodnicyDruzynyKomputera());
 		tableGraczeKomputera.setItems(listaZawodnikowKomputera);
+	}
+
+	public void zagrajPonownie(ActionEvent actionEvent) {
+		stageManager.switchScene(FxmlView.TACTICSVIEW);
+	}
+
+	public void zakonczGre(ActionEvent actionEvent) {
+		Platform.exit();
 	}
 }
