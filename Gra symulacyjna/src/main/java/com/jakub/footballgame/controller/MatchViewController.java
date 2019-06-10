@@ -7,6 +7,7 @@ package com.jakub.footballgame.controller;
 
 import com.jakub.footballgame.config.FxmlView;
 import com.jakub.footballgame.config.StageManager;
+import com.jakub.footballgame.controller.tableModel.MeczTableObject;
 import com.jakub.footballgame.logic.druzyna.Druzyny;
 import com.jakub.footballgame.logic.druzyna.PozycjaZawodnika;
 import com.jakub.footballgame.logic.druzyna.Zawodnik;
@@ -16,11 +17,11 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.Region;
+import javafx.scene.text.Text;
+import javafx.util.Callback;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Controller;
@@ -39,6 +40,7 @@ public class MatchViewController implements Initializable {
 
 	private ObservableList<Zawodnik> listaZawodnikowGracza = FXCollections.observableArrayList();
 	private ObservableList<Zawodnik> listaZawodnikowKomputera = FXCollections.observableArrayList();
+	private ObservableList<MeczTableObject> listaAkcji = FXCollections.observableArrayList();
 	private int minutaMeczu = 0;
 
 	@FXML
@@ -72,6 +74,13 @@ public class MatchViewController implements Initializable {
 	private TableColumn<Zawodnik, Integer> colCZKG;
 
 	@FXML
+	private TableView<MeczTableObject> tableMecz;
+	@FXML
+	private TableColumn<MeczTableObject, String> colMinuta;
+	@FXML
+	private TableColumn<MeczTableObject, String> colAkcja;
+
+	@FXML
 	private Label labelWynikKomputera;
 	@FXML
 	private Label labelWynikGracza;
@@ -95,6 +104,7 @@ public class MatchViewController implements Initializable {
 		wczytajZawodnikowKomputera();
 		ustawDaneMeczu();
 		ustawienieStatystyk();
+		wczytajZdarzeniaMeczowe();
 		wyswietlKomunikatORozpoczeciuMeczu();
 		grajMecz();
 	}
@@ -115,10 +125,16 @@ public class MatchViewController implements Initializable {
 	}
 
 	private void wyswietlKomunikatORozpoczeciuMeczu() {
-		//TODO implementacja
+		String text = "Witamy na spotkaniu, które mamy nadzieję dostarczy nam dużo emocji. Drużyna komputera rozpocznie " +
+				"to spotkaniu w ustawieniu "+ getTaktyka(listaZawodnikowKomputera) +" , natomiast drużyna gracza w ustawieniu " +
+				getTaktyka(listaZawodnikowGracza) + ".";
+		MeczTableObject akcja = new MeczTableObject(minutaMeczu, text);
+		listaAkcji.addAll(akcja);
 	}
 	private void komunikatOZakonczeniuMeczu() {
-		//TODO implementacja
+		String text ="Koniec czasu drugiej połowy, sędzia kończy mecz. " + getWynikKomputera().toString() + ":" + getWynikGracza().toString();
+		MeczTableObject akcja = new MeczTableObject(minutaMeczu, text);
+		listaAkcji.addAll(akcja);
 		btnZagrajPonownie.setDisable(false);
 	}
 
@@ -200,6 +216,28 @@ public class MatchViewController implements Initializable {
 		listaZawodnikowKomputera.clear();
 		listaZawodnikowKomputera.addAll(Druzyny.getZawodnicyDruzynyKomputera());
 		tableGraczeKomputera.setItems(listaZawodnikowKomputera);
+	}
+
+	private void wczytajZdarzeniaMeczowe() {
+		colMinuta.setCellValueFactory(new PropertyValueFactory<>("minuta"));
+		colAkcja.setCellValueFactory(new PropertyValueFactory<>("akcja"));
+
+		colAkcja.setCellFactory(new Callback<TableColumn<MeczTableObject, String>, TableCell<MeczTableObject, String>>() {
+			@Override
+			public TableCell<MeczTableObject, String> call(
+					TableColumn<MeczTableObject, String> param) {
+				TableCell<MeczTableObject, String> cell = new TableCell<>();
+				Text text = new Text();
+				cell.setGraphic(text);
+				cell.setPrefHeight(Control.USE_COMPUTED_SIZE);
+				text.wrappingWidthProperty().bind(cell.widthProperty());
+				text.textProperty().bind(cell.itemProperty());
+				return cell ;
+			}
+		});
+
+		listaAkcji.clear();
+		tableMecz.setItems(listaAkcji);
 	}
 
 	public void zagrajPonownie(ActionEvent actionEvent) {

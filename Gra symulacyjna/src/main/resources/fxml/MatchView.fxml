@@ -44,7 +44,7 @@
                 <Font name="System Bold" size="22.0" />
             </font>
         </Label>
-        <TableView fx:id="tableGraczeKomputera" layoutX="15.0" layoutY="131.0" prefHeight="307.0" prefWidth="303.0">
+        <TableView fx:id="tableGraczeKomputera" layoutX="15.0" layoutY="131.0" prefHeight="307.0" prefWidth="303.0" style="-fx-background-color: #CCFFCC;">
             <columns>
                 <TableColumn fx:id="colNumerK" prefWidth="57.0" style="-fx-alignment: center;" text="Numer" />
                 <TableColumn fx:id="colSilaK" prefWidth="40.0" style="-fx-alignment: center;" text="Siła" />
@@ -54,7 +54,7 @@
                 <TableColumn fx:id="colCZKK" prefWidth="41.0" style="-fx-alignment: center;" text="CZK" />
             </columns>
         </TableView>
-        <TableView fx:id="tableGraczeGracza" layoutX="806.0" layoutY="131.0" prefHeight="307.0" prefWidth="303.0">
+        <TableView fx:id="tableGraczeGracza" layoutX="806.0" layoutY="131.0" prefHeight="307.0" prefWidth="303.0" style="-fx-background-color: #CCFFCC;">
             <columns>
                 <TableColumn fx:id="colNumerG" prefWidth="57.0" style="-fx-alignment: center;" text="Numer" />
                 <TableColumn fx:id="colSilaG" prefWidth="40.0" style="-fx-alignment: center;" text="Siła" />
@@ -114,5 +114,11 @@
                 <Font name="System Bold" size="15.0" />
             </font>
         </Button>
+      <TableView fx:id="tableMecz" layoutX="355.0" layoutY="102.0" prefHeight="554.0" prefWidth="423.0" style="-fx-background-color: #7cff72;">
+        <columns>
+          <TableColumn fx:id="colMinuta" prefWidth="64.0" sortType="DESCENDING" style="-fx-alignment: center;-fx-font-weight: bold;" text="Minuta" />
+          <TableColumn fx:id="colAkcja" prefWidth="358.0" text="Akcja" />
+        </columns>
+      </TableView>
     </children>
 </AnchorPane>
