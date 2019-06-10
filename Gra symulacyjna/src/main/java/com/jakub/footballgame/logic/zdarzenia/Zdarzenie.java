@@ -9,4 +9,5 @@ import com.jakub.footballgame.logic.efekty.IEfekt;
 
 public interface Zdarzenie {
 	IEfekt efektZdarzenia();
+
 }

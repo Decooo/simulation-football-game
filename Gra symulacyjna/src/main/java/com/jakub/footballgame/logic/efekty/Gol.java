@@ -17,6 +17,6 @@ public class Gol extends Efekt {
 	@Override
 	public String zwrocEfektZdarzenia() {
 		String druzyna = getDruzynaAtakujaca() == NazwaDruzyny.KOMPUTER ? "komputera" : "gracza";
-		return "Gol dla drużyny " + druzyna + " zdobyty przez gracza z numerem " + getNumerGracza();
+		return "GOOOOOOL!!! Gol dla drużyny " + druzyna + " zdobyty przez gracza z numerem " + getNumerGracza();
 	}
 }

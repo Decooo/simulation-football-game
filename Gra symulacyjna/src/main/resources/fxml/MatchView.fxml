@@ -39,7 +39,7 @@
                 <Font name="System Italic" size="15.0" />
             </font>
         </Label>
-        <Label fx:id="labelMinuta" layoutX="545.0" layoutY="36.0" text="0" textFill="#ff0404">
+        <Label fx:id="labelMinuta" layoutX="545.0" layoutY="36.0" text="00" textFill="#ff0404">
             <font>
                 <Font name="System Bold" size="22.0" />
             </font>
@@ -116,7 +116,7 @@
         </Button>
       <TableView fx:id="tableMecz" layoutX="355.0" layoutY="102.0" prefHeight="554.0" prefWidth="423.0" style="-fx-background-color: #7cff72;">
         <columns>
-          <TableColumn fx:id="colMinuta" prefWidth="64.0" sortType="DESCENDING" style="-fx-alignment: center;-fx-font-weight: bold;" text="Minuta" />
+          <TableColumn fx:id="colMinuta" prefWidth="64.0" sortType="DESCENDING" style="-fx-alignment: center;-fx-font-weight: bold" text="Minuta" />
           <TableColumn fx:id="colAkcja" prefWidth="358.0" text="Akcja" />
         </columns>
       </TableView>

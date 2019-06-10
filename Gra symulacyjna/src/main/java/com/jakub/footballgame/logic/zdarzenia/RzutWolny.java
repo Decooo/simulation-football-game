@@ -27,8 +27,8 @@ public class RzutWolny extends ZdarzeniaZakonczoneStrzalem {
 	@Override
 	public IEfekt efektZdarzenia() {
 		int randomNumer = ThreadLocalRandom.current().nextInt(1, 11);
-		if (randomNumer < 3) return new Gol(this.getDruzynaAtakujaca(), this.getNumerGraczaStrzelajacego());
-		else if (randomNumer < 7)
+		if (randomNumer < 2) return new Gol(this.getDruzynaAtakujaca(), this.getNumerGraczaStrzelajacego());
+		else if (randomNumer < 6)
 			return new ObronaBramkarza(this.getDruzynaAtakujaca(), this.getNumerGraczaStrzelajacego());
 		else return new StrzalNiecelny(this.getDruzynaAtakujaca(), this.getNumerGraczaStrzelajacego());
 	}

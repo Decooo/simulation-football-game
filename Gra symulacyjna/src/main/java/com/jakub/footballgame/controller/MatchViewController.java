@@ -11,6 +11,8 @@ import com.jakub.footballgame.controller.tableModel.MeczTableObject;
 import com.jakub.footballgame.logic.druzyna.Druzyny;
 import com.jakub.footballgame.logic.druzyna.PozycjaZawodnika;
 import com.jakub.footballgame.logic.druzyna.Zawodnik;
+import com.jakub.footballgame.logic.zdarzenia.WyborZdarzenia;
+import com.jakub.footballgame.logic.zdarzenia.Zdarzenie;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -115,13 +117,17 @@ public class MatchViewController implements Initializable {
 
 			@Override
 			public void run() {
-				wykonajZdarzenieMeczowe();
+				try {
+					wykonajZdarzenieMeczowe();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 				if(minutaMeczu>=90) {
 					timer.cancel();
 					komunikatOZakonczeniuMeczu();
 				}
 			}
-		}, 0l,2500l);
+		}, 0l,3000l);
 	}
 
 	private void wyswietlKomunikatORozpoczeciuMeczu() {
@@ -131,21 +137,25 @@ public class MatchViewController implements Initializable {
 		MeczTableObject akcja = new MeczTableObject(minutaMeczu, text);
 		listaAkcji.addAll(akcja);
 	}
+
 	private void komunikatOZakonczeniuMeczu() {
 		String text ="Koniec czasu drugiej połowy, sędzia kończy mecz. " + getWynikKomputera().toString() + ":" + getWynikGracza().toString();
-		MeczTableObject akcja = new MeczTableObject(minutaMeczu, text);
+		MeczTableObject akcja = new MeczTableObject(minutaMeczu +1, text);
 		listaAkcji.addAll(akcja);
 		btnZagrajPonownie.setDisable(false);
+		tableMecz.sort();
 	}
 
-	private void wykonajZdarzenieMeczowe() {
+	private void wykonajZdarzenieMeczowe() throws Exception {
 		minutaMeczu+=3;
-		//TODO implementacja
-		//ustal zdarzenie
-		//wykonaj zdarzenie
-		//wyświetl raport zdarzenia
-		//zaaktualizuj dane meczu i zawodnikow
+		WyborZdarzenia wyborZdarzenia = new WyborZdarzenia();
+		Zdarzenie zdarzenie = wyborZdarzenia.wybierzZlecenie();
+		listaAkcji.addAll(new MeczTableObject(minutaMeczu, zdarzenie.efektZdarzenia().zwrocEfektZdarzenia()));
+		tableMecz.sort();
+		//TODO aktualizacja danych zawodnikow po zdarzeniu
+		Platform.runLater(this::ustawDaneMeczu);
 	}
+
 
 	private void ustawienieStatystyk() {
 		silaDruzynyGracza.setText(getSilaDruzyny(listaZawodnikowGracza).toString());
@@ -235,9 +245,12 @@ public class MatchViewController implements Initializable {
 				return cell ;
 			}
 		});
-
 		listaAkcji.clear();
 		tableMecz.setItems(listaAkcji);
+
+		tableMecz.getSortOrder().add(colMinuta);
+		colAkcja.setSortType(TableColumn.SortType.DESCENDING);
+		colAkcja.setSortable(true);
 	}
 
 	public void zagrajPonownie(ActionEvent actionEvent) {
