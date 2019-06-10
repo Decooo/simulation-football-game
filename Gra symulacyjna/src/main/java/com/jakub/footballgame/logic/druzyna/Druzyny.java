@@ -6,7 +6,6 @@
 package com.jakub.footballgame.logic.druzyna;
 
 import java.util.ArrayList;
-import java.util.Optional;
 
 public class Druzyny {
 
@@ -45,6 +44,18 @@ public class Druzyny {
 		zawodnicyDruzynyGracza = new ArrayList<>();
 		for (int i = 1; i < 12; i++) {
 			zawodnicyDruzynyGracza.add(new Zawodnik(poziomSilyDruzyny, i));
+		}
+	}
+
+	public void przypiszPozycjeLosowo(ArrayList<Zawodnik> zawodnicy, Taktyka taktyka) {
+		int[] liczbaGraczyWFormacji = taktyka.getValue();
+
+		for (int i = 0; i < 11; i++) {
+			if (i == 0) zawodnicy.get(i).setPozycja(PozycjaZawodnika.BRAMKARZ);
+			else if (i <= liczbaGraczyWFormacji[0]) zawodnicy.get(i).setPozycja(PozycjaZawodnika.OBRONCA);
+			else if (i <= (liczbaGraczyWFormacji[0] + liczbaGraczyWFormacji[1]))
+				zawodnicy.get(i).setPozycja(PozycjaZawodnika.POMOCNIK);
+			else zawodnicy.get(i).setPozycja(PozycjaZawodnika.NAPASTNIK);
 		}
 	}
 }

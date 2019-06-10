@@ -1,19 +1,67 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
 <!--
   ~ Autor: Jakub Kuśnierz
   ~ Data: 2019
   -->
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.jakub.footballgame.controller.MatchViewController"
-            prefHeight="400.0" prefWidth="600.0">
-
+<AnchorPane prefHeight="687.0" prefWidth="1116.0" style="-fx-background-color: #bee6e6;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jakub.footballgame.controller.MatchViewController">
+   <children>
+      <Label layoutX="95.0" layoutY="41.0" text="Drużyna Komputera">
+         <font>
+            <Font name="System Bold Italic" size="15.0" />
+         </font>
+      </Label>
+      <Label layoutX="901.0" layoutY="44.0" text="Drużyna Gracza">
+         <font>
+            <Font name="System Bold Italic" size="15.0" />
+         </font>
+      </Label>
+      <Label fx:id="labelWynikKomputera" layoutX="378.0" layoutY="34.0" text="0" textFill="#0900ff">
+         <font>
+            <Font name="System Bold" size="28.0" />
+         </font>
+      </Label>
+      <Label fx:id="labelWynikGracza" layoutX="736.0" layoutY="34.0" prefHeight="40.0" prefWidth="5.0" text="0" textFill="#2200ff">
+         <font>
+            <Font name="System Bold" size="28.0" />
+         </font>
+      </Label>
+      <Label layoutX="535.0" layoutY="61.0" text="minuta">
+         <font>
+            <Font name="System Italic" size="15.0" />
+         </font>
+      </Label>
+      <Label fx:id="labelMinuta" layoutX="545.0" layoutY="36.0" text="0" textFill="#ff0404">
+         <font>
+            <Font name="System Bold" size="22.0" />
+         </font>
+      </Label>
+      <TableView fx:id="tableGraczeKomputera" layoutX="15.0" layoutY="131.0" prefHeight="307.0" prefWidth="303.0">
+        <columns>
+          <TableColumn fx:id="colNumerK" prefWidth="57.0" style="-fx-alignment: center;" text="Numer" />
+          <TableColumn fx:id="colSilaK" prefWidth="40.0" style="-fx-alignment: center;" text="Siła" />
+            <TableColumn fx:id="colPozycjaK" prefWidth="88.0" style="-fx-alignment: center;" text="Pozycja" />
+            <TableColumn fx:id="colGoleK" prefWidth="43.0" style="-fx-alignment: center;" text="Gole" />
+            <TableColumn fx:id="colZKK" prefWidth="31.0" style="-fx-alignment: center;" text="ŻK" />
+            <TableColumn fx:id="colCZKK" prefWidth="41.0" style="-fx-alignment: center;" text="CZK" />
+        </columns>
+      </TableView>
+      <TableView fx:id="tableGraczeGracza" layoutX="806.0" layoutY="131.0" prefHeight="307.0" prefWidth="303.0">
+         <columns>
+            <TableColumn fx:id="colNumerG" prefWidth="57.0" style="-fx-alignment: center;" text="Numer" />
+            <TableColumn fx:id="colSilaG" prefWidth="40.0" style="-fx-alignment: center;" text="Siła" />
+            <TableColumn fx:id="colPozycjaG" prefWidth="88.0" style="-fx-alignment: center;" text="Pozycja" />
+            <TableColumn fx:id="colGoleG" prefWidth="43.0" style="-fx-alignment: center;" text="Gole" />
+            <TableColumn fx:id="colZKG" prefWidth="31.0" style="-fx-alignment: center;" text="ŻK" />
+            <TableColumn fx:id="colCZKG" prefWidth="41.0" style="-fx-alignment: center;" text="CZK" />
+         </columns>
+      </TableView>
+   </children>
 </AnchorPane>

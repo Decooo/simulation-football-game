@@ -324,7 +324,6 @@ public class TacticsViewController implements Initializable {
 			zapiszPozycjeGraczy();
 			stageManager.switchScene(FxmlView.MATCHVIEW);
 		}
-
 	}
 
 	private void zapiszPozycjeGraczy() {
@@ -344,5 +343,11 @@ public class TacticsViewController implements Initializable {
 		alert.setHeaderText(null);
 		alert.setContentText("Nie można rozpocząć meczu, ponieważ nie wszyscy zawodnicy mają wybraną pozycję");
 		alert.showAndWait();
+	}
+
+	public void zagrajZLosowymiPozycjami(ActionEvent actionEvent) {
+		Druzyny druzyny = new Druzyny();
+		druzyny.przypiszPozycjeLosowo(Druzyny.getZawodnicyDruzynyGracza(),losujTaktyke());
+		stageManager.switchScene(FxmlView.MATCHVIEW);
 	}
 }

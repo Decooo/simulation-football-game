@@ -34,7 +34,7 @@ public class Zawodnik {
 	}
 
 	private int losujPoziomUmiejetnosci(int poziomUmiejetnosci) {
-		return ThreadLocalRandom.current().nextInt(poziomUmiejetnosci - 20, poziomUmiejetnosci + 21);
+		return ThreadLocalRandom.current().nextInt(poziomUmiejetnosci - 19, poziomUmiejetnosci + 20);
 	}
 
 	public int getLiczbaGoli() {
