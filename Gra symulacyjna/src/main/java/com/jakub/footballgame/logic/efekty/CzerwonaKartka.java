@@ -6,6 +6,7 @@
 package com.jakub.footballgame.logic.efekty;
 
 import com.jakub.footballgame.logic.NazwaDruzyny;
+import com.jakub.footballgame.logic.druzyna.Druzyny;
 
 public class CzerwonaKartka extends Efekt {
 	public CzerwonaKartka(NazwaDruzyny druzynaAtakujaca, int numerGracza) {
@@ -15,6 +16,7 @@ public class CzerwonaKartka extends Efekt {
 	@Override
 	public String zwrocEfektZdarzenia() {
 		String druzyna = getDruzynaAtakujaca() == NazwaDruzyny.KOMPUTER ? "komputera" : "gracza";
-		return "Czerwona kartka dla gracza z numerem " + getNumerGracza() + " z drużyny " + druzyna;
+		Druzyny.zapiszCzerwonaKartke(getDruzynaAtakujaca(),getNumerGracza());
+		return "CZERWONA KARTKA dla gracza z numerem " + getNumerGracza() + " z drużyny " + druzyna;
 	}
 }

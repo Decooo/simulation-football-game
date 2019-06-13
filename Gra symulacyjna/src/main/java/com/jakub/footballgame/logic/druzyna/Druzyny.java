@@ -5,7 +5,11 @@
 
 package com.jakub.footballgame.logic.druzyna;
 
+import com.jakub.footballgame.logic.NazwaDruzyny;
+
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 public class Druzyny {
 
@@ -57,5 +61,31 @@ public class Druzyny {
 				zawodnicy.get(i).setPozycja(PozycjaZawodnika.POMOCNIK);
 			else zawodnicy.get(i).setPozycja(PozycjaZawodnika.NAPASTNIK);
 		}
+	}
+
+	public static void zapiszGola(NazwaDruzyny druzyna, int numerGracza) {
+		List<Zawodnik> zawodnicy = (druzyna.equals(NazwaDruzyny.KOMPUTER)) ? Druzyny.getZawodnicyDruzynyKomputera() : Druzyny.getZawodnicyDruzynyGracza();
+		zawodnicy.stream()
+				.filter(z -> z.getNumerGracza() == numerGracza)
+				.forEach(zawodnik -> zawodnik.setLiczbaGoli(zawodnik.getLiczbaGoli() + 1));
+	}
+
+	public static void zapiszZoltaKartke(NazwaDruzyny druzyna, int numerGracza) {
+		List<Zawodnik> zawodnicy = (druzyna.equals(NazwaDruzyny.KOMPUTER)) ? Druzyny.getZawodnicyDruzynyKomputera() : Druzyny.getZawodnicyDruzynyGracza();
+		zawodnicy.stream()
+				.filter(z -> z.getNumerGracza() == numerGracza)
+				.filter(z -> z.getLiczbaZoltychKartek() < 2)
+				.filter(z -> z.getLiczbaCzerwonychKartek() < 1)
+				.peek(zawodnik -> zawodnik.setLiczbaZoltychKartek(zawodnik.getLiczbaZoltychKartek() + 1))
+				.filter(z -> z.getLiczbaZoltychKartek() == 2)
+				.forEach(zawodnik -> zawodnik.setLiczbaCzerwonychKartek(1));
+	}
+
+	public static void zapiszCzerwonaKartke(NazwaDruzyny druzyna, int numerGracza) {
+		List<Zawodnik> zawodnicy = (druzyna.equals(NazwaDruzyny.KOMPUTER)) ? Druzyny.getZawodnicyDruzynyKomputera() : Druzyny.getZawodnicyDruzynyGracza();
+		zawodnicy.stream()
+				.filter(z -> z.getNumerGracza() == numerGracza)
+				.filter(z -> z.getLiczbaCzerwonychKartek() < 1)
+				.forEach(zawodnik -> zawodnik.setLiczbaCzerwonychKartek(1));
 	}
 }

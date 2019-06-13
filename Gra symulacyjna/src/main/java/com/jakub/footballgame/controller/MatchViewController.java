@@ -21,7 +21,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.Region;
 import javafx.scene.text.Text;
 import javafx.util.Callback;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -102,6 +101,7 @@ public class MatchViewController implements Initializable {
 
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle) {
+		minutaMeczu = 0;
 		wczytajZawodnikowGracza();
 		wczytajZawodnikowKomputera();
 		ustawDaneMeczu();
@@ -110,7 +110,7 @@ public class MatchViewController implements Initializable {
 		wyswietlKomunikatORozpoczeciuMeczu();
 		grajMecz();
 	}
-	
+
 	private void grajMecz() {
 		Timer timer = new Timer();
 		timer.schedule(new TimerTask() {
@@ -122,40 +122,47 @@ public class MatchViewController implements Initializable {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-				if(minutaMeczu>=90) {
+				if (minutaMeczu >= 90) {
 					timer.cancel();
 					komunikatOZakonczeniuMeczu();
 				}
 			}
-		}, 0l,3000l);
-	}
-
-	private void wyswietlKomunikatORozpoczeciuMeczu() {
-		String text = "Witamy na spotkaniu, które mamy nadzieję dostarczy nam dużo emocji. Drużyna komputera rozpocznie " +
-				"to spotkaniu w ustawieniu "+ getTaktyka(listaZawodnikowKomputera) +" , natomiast drużyna gracza w ustawieniu " +
-				getTaktyka(listaZawodnikowGracza) + ".";
-		MeczTableObject akcja = new MeczTableObject(minutaMeczu, text);
-		listaAkcji.addAll(akcja);
+		}, 0l, 3000l);
 	}
 
 	private void komunikatOZakonczeniuMeczu() {
-		String text ="Koniec czasu drugiej połowy, sędzia kończy mecz. " + getWynikKomputera().toString() + ":" + getWynikGracza().toString();
-		MeczTableObject akcja = new MeczTableObject(minutaMeczu +1, text);
+		String text = "Koniec czasu drugiej połowy, sędzia kończy mecz. " + getWynikKomputera().toString() + ":" + getWynikGracza().toString();
+		MeczTableObject akcja = new MeczTableObject(minutaMeczu + 1, text);
 		listaAkcji.addAll(akcja);
 		btnZagrajPonownie.setDisable(false);
 		tableMecz.sort();
 	}
 
 	private void wykonajZdarzenieMeczowe() throws Exception {
-		minutaMeczu+=3;
+		minutaMeczu += 3;
 		WyborZdarzenia wyborZdarzenia = new WyborZdarzenia();
 		Zdarzenie zdarzenie = wyborZdarzenia.wybierzZlecenie();
 		listaAkcji.addAll(new MeczTableObject(minutaMeczu, zdarzenie.efektZdarzenia().zwrocEfektZdarzenia()));
 		tableMecz.sort();
-		//TODO aktualizacja danych zawodnikow po zdarzeniu
-		Platform.runLater(this::ustawDaneMeczu);
+		Platform.runLater(() -> {
+			ustawDaneMeczu();
+			odswiezStatystykiGraczy();
+		});
 	}
 
+	private void odswiezStatystykiGraczy() {
+		tableGraczeKomputera.refresh();
+		tableGraczeGracza.refresh();
+		ustawienieStatystyk();
+	}
+
+	private void wyswietlKomunikatORozpoczeciuMeczu() {
+		String text = "Witamy na spotkaniu, które mamy nadzieję dostarczy nam dużo emocji. Drużyna komputera rozpocznie " +
+				"to spotkaniu w ustawieniu " + getTaktyka(listaZawodnikowKomputera) + " , natomiast drużyna gracza w ustawieniu " +
+				getTaktyka(listaZawodnikowGracza) + ".";
+		MeczTableObject akcja = new MeczTableObject(minutaMeczu, text);
+		listaAkcji.addAll(akcja);
+	}
 
 	private void ustawienieStatystyk() {
 		silaDruzynyGracza.setText(getSilaDruzyny(listaZawodnikowGracza).toString());
@@ -166,12 +173,15 @@ public class MatchViewController implements Initializable {
 
 	private String getTaktyka(ObservableList<Zawodnik> listaZawodnikow) {
 		long liczbaObroncow = listaZawodnikow.stream()
+				.filter(zawodnik -> zawodnik.getLiczbaCzerwonychKartek() == 0)
 				.filter(z -> z.getPozycja().equals(PozycjaZawodnika.OBRONCA))
 				.count();
 		long liczbaPomocnikow = listaZawodnikow.stream()
+				.filter(zawodnik -> zawodnik.getLiczbaCzerwonychKartek() == 0)
 				.filter(z -> z.getPozycja().equals(PozycjaZawodnika.POMOCNIK))
 				.count();
 		long liczbaNapastnikow = listaZawodnikow.stream()
+				.filter(zawodnik -> zawodnik.getLiczbaCzerwonychKartek() == 0)
 				.filter(z -> z.getPozycja().equals(PozycjaZawodnika.NAPASTNIK))
 				.count();
 
@@ -180,6 +190,7 @@ public class MatchViewController implements Initializable {
 
 	private Integer getSilaDruzyny(ObservableList<Zawodnik> listaZawodnikow) {
 		return listaZawodnikow.stream()
+				.filter(zawodnik -> zawodnik.getLiczbaCzerwonychKartek() == 0)
 				.map(Zawodnik::getPoziomUmiejetnosci)
 				.reduce(0, Integer::sum);
 	}
@@ -242,7 +253,7 @@ public class MatchViewController implements Initializable {
 				cell.setPrefHeight(Control.USE_COMPUTED_SIZE);
 				text.wrappingWidthProperty().bind(cell.widthProperty());
 				text.textProperty().bind(cell.itemProperty());
-				return cell ;
+				return cell;
 			}
 		});
 		listaAkcji.clear();

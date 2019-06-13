@@ -114,7 +114,7 @@
                 <Font name="System Bold" size="15.0" />
             </font>
         </Button>
-      <TableView fx:id="tableMecz" layoutX="355.0" layoutY="102.0" prefHeight="554.0" prefWidth="423.0" style="-fx-background-color: #7cff72;">
+      <TableView fx:id="tableMecz" layoutX="350.0" layoutY="102.0" prefHeight="554.0" prefWidth="442.0" style="-fx-background-color: #7cff72;">
         <columns>
           <TableColumn fx:id="colMinuta" prefWidth="64.0" sortType="DESCENDING" style="-fx-alignment: center;-fx-font-weight: bold" text="Minuta" />
           <TableColumn fx:id="colAkcja" prefWidth="358.0" text="Akcja" />

@@ -27,11 +27,11 @@ public class WyborZdarzenia {
 		if (randomNumer <= 3) return fabrykaZdarzen.utworzZdarzenie(przygotowanieZdarzeniaStrzalu());
 		else if (randomNumer <= 5) return fabrykaZdarzen.utworzZdarzenie(przygotowanieZdarzeniaRzutuWolnego());
 		else if (randomNumer <= 6) return fabrykaZdarzen.utworzZdarzenie(przygotowanieZdarzeniaRzutuKarnego());
-		else if (randomNumer <= 9) return fabrykaZdarzen.utworzZdarzenie(przygotowanieZdarzeniaFaulu());
+		else if (randomNumer <= 8) return fabrykaZdarzen.utworzZdarzenie(przygotowanieZdarzeniaFaulu());
 		else return fabrykaZdarzen.utworzZdarzenie(przygotowanieZdarzeniaSpalony());
 	}
 
-	private int wylosujNumer(){
+	private int wylosujNumer() {
 		int randomNumer = ThreadLocalRandom.current().nextInt(1, 11);
 
 		List<Integer> wylosowanyNumer = new ArrayList<>();
@@ -40,25 +40,26 @@ public class WyborZdarzenia {
 		}
 		Collections.shuffle(wylosowanyNumer);
 		Collections.shuffle(wylosowanyNumer);
-		return wylosowanyNumer.get(randomNumer-1);
+		return wylosowanyNumer.get(randomNumer - 1);
 	}
 
 	private DaneZdarzenia przygotowanieZdarzeniaStrzalu() {
 		NazwaDruzyny druzynaAtakujaca = ustalDruzyneAtakujaca();
-		int numerGracza = ustalStrzelca((druzynaAtakujaca.equals(NazwaDruzyny.KOMPUTER)) ? Druzyny.getZawodnicyDruzynyGracza() : Druzyny.getZawodnicyDruzynyKomputera());
+		int numerGracza = ustalStrzelca((druzynaAtakujaca.equals(NazwaDruzyny.KOMPUTER)) ? Druzyny.getZawodnicyDruzynyKomputera() : Druzyny.getZawodnicyDruzynyGracza());
 
 		return new DaneZdarzenia.Builder()
 				.nazwaZdarzenia(NazwyZdarzen.STRZAL)
 				.druzynaAtakujaca(druzynaAtakujaca)
 				.druzynaBroniaca((druzynaAtakujaca.equals(NazwaDruzyny.KOMPUTER)) ? NazwaDruzyny.GRACZ : NazwaDruzyny.KOMPUTER)
 				.numerGracza(numerGracza)
-				.silaStrzelca(getSilaGracza((druzynaAtakujaca.equals(NazwaDruzyny.KOMPUTER)) ? Druzyny.getZawodnicyDruzynyGracza() : Druzyny.getZawodnicyDruzynyKomputera(), numerGracza))
-				.silaBramkarza(getSilaBramkarza((druzynaAtakujaca.equals(NazwaDruzyny.KOMPUTER)) ? Druzyny.getZawodnicyDruzynyKomputera() : Druzyny.getZawodnicyDruzynyGracza()))
+				.silaStrzelca(getSilaGracza((druzynaAtakujaca.equals(NazwaDruzyny.KOMPUTER)) ? Druzyny.getZawodnicyDruzynyKomputera() : Druzyny.getZawodnicyDruzynyGracza(), numerGracza))
+				.silaBramkarza(getSilaBramkarza((druzynaAtakujaca.equals(NazwaDruzyny.KOMPUTER)) ? Druzyny.getZawodnicyDruzynyGracza() : Druzyny.getZawodnicyDruzynyKomputera()))
 				.build();
 	}
 
 	private int getSilaBramkarza(ArrayList<Zawodnik> zawodnicy) {
 		Optional<Zawodnik> bramkarz = zawodnicy.stream()
+				.filter(zawodnik -> zawodnik.getLiczbaCzerwonychKartek() == 0)
 				.filter(z -> z.getPozycja().equals(PozycjaZawodnika.BRAMKARZ))
 				.findFirst();
 
@@ -67,6 +68,7 @@ public class WyborZdarzenia {
 
 	private int getSilaGracza(List<Zawodnik> zawodnicy, int numerGracza) {
 		Optional<Zawodnik> zawodnik = zawodnicy.stream()
+				.filter(z -> z.getLiczbaCzerwonychKartek() == 0)
 				.filter(z -> z.getNumerGracza() == numerGracza)
 				.findFirst();
 
@@ -116,9 +118,9 @@ public class WyborZdarzenia {
 
 	private double wyliczenieSzansyNaSytuacje(Integer silaDruzynyKomputera, Integer silaDruzynyGracza,
 											  Integer silaPomocyDruzynyGracza, Integer silaPomocyDruzynyKomputera) {
-		double wynikSilDruzyny = (double)silaDruzynyKomputera / ((double)silaDruzynyKomputera + (double)silaDruzynyGracza);
-		double wynikPomocyDruzyny = (double)silaPomocyDruzynyKomputera / ((double)silaPomocyDruzynyKomputera + (double)silaPomocyDruzynyGracza);
-		double szansaKomputera = (wynikSilDruzyny + wynikPomocyDruzyny) /2;
+		double wynikSilDruzyny = (double) silaDruzynyKomputera / ((double) silaDruzynyKomputera + (double) silaDruzynyGracza);
+		double wynikPomocyDruzyny = (double) silaPomocyDruzynyKomputera / ((double) silaPomocyDruzynyKomputera + (double) silaPomocyDruzynyGracza);
+		double szansaKomputera = (wynikSilDruzyny + wynikPomocyDruzyny) / 2;
 
 		if (szansaKomputera > 0.8) szansaKomputera = 0.8;
 		else if (szansaKomputera < 0.2) szansaKomputera = 0.2;
@@ -127,6 +129,7 @@ public class WyborZdarzenia {
 
 	private Integer getSilaDruzyny(List<Zawodnik> listaZawodnikow) {
 		return listaZawodnikow.stream()
+				.filter(zawodnik -> zawodnik.getLiczbaCzerwonychKartek() == 0)
 				.map(Zawodnik::getPoziomUmiejetnosci)
 				.reduce(0, Integer::sum);
 	}
@@ -134,6 +137,7 @@ public class WyborZdarzenia {
 	private Integer getSilaPomocy(List<Zawodnik> listaZawodnikow) {
 		return listaZawodnikow.stream()
 				.filter(z -> z.getPozycja().equals(PozycjaZawodnika.POMOCNIK))
+				.filter(zawodnik -> zawodnik.getLiczbaCzerwonychKartek() == 0)
 				.map(Zawodnik::getPoziomUmiejetnosci)
 				.reduce(0, Integer::sum);
 	}
@@ -170,20 +174,21 @@ public class WyborZdarzenia {
 	private List<Zawodnik> getZawodnikowZPola(List<Zawodnik> zawodnicy) {
 		return zawodnicy.stream()
 				.filter(z -> !z.getPozycja().equals(PozycjaZawodnika.BRAMKARZ))
+				.filter(zawodnik -> zawodnik.getLiczbaCzerwonychKartek() == 0)
 				.collect(Collectors.toList());
 	}
 
 	private DaneZdarzenia przygotowanieZdarzeniaRzutuKarnego() {
 		NazwaDruzyny druzynaAtakujaca = ustalDruzyneAtakujaca();
-		int numerGracza = ustalStrzelca((druzynaAtakujaca.equals(NazwaDruzyny.KOMPUTER)) ? Druzyny.getZawodnicyDruzynyGracza() : Druzyny.getZawodnicyDruzynyKomputera());
+		int numerGracza = ustalStrzelca((druzynaAtakujaca.equals(NazwaDruzyny.KOMPUTER)) ? Druzyny.getZawodnicyDruzynyKomputera() : Druzyny.getZawodnicyDruzynyGracza());
 
 		return new DaneZdarzenia.Builder()
 				.nazwaZdarzenia(NazwyZdarzen.RZUTKARNY)
 				.druzynaAtakujaca(druzynaAtakujaca)
 				.druzynaBroniaca((druzynaAtakujaca.equals(NazwaDruzyny.KOMPUTER)) ? NazwaDruzyny.GRACZ : NazwaDruzyny.KOMPUTER)
 				.numerGracza(numerGracza)
-				.silaStrzelca(getSilaGracza((druzynaAtakujaca.equals(NazwaDruzyny.KOMPUTER)) ? Druzyny.getZawodnicyDruzynyGracza() : Druzyny.getZawodnicyDruzynyKomputera(), numerGracza))
-				.silaBramkarza(getSilaBramkarza((druzynaAtakujaca.equals(NazwaDruzyny.KOMPUTER)) ? Druzyny.getZawodnicyDruzynyKomputera() : Druzyny.getZawodnicyDruzynyGracza()))
+				.silaStrzelca(getSilaGracza((druzynaAtakujaca.equals(NazwaDruzyny.KOMPUTER)) ? Druzyny.getZawodnicyDruzynyKomputera() : Druzyny.getZawodnicyDruzynyGracza(), numerGracza))
+				.silaBramkarza(getSilaBramkarza((druzynaAtakujaca.equals(NazwaDruzyny.KOMPUTER)) ? Druzyny.getZawodnicyDruzynyGracza() : Druzyny.getZawodnicyDruzynyKomputera()))
 				.build();
 	}
 
@@ -196,8 +201,8 @@ public class WyborZdarzenia {
 				.druzynaAtakujaca(druzynaAtakujaca)
 				.druzynaBroniaca((druzynaAtakujaca.equals(NazwaDruzyny.KOMPUTER)) ? NazwaDruzyny.GRACZ : NazwaDruzyny.KOMPUTER)
 				.numerGracza(numerGracza)
-				.silaStrzelca(getSilaGracza((druzynaAtakujaca.equals(NazwaDruzyny.KOMPUTER)) ? Druzyny.getZawodnicyDruzynyGracza() : Druzyny.getZawodnicyDruzynyKomputera(), numerGracza))
-				.silaBramkarza(getSilaBramkarza((druzynaAtakujaca.equals(NazwaDruzyny.KOMPUTER)) ? Druzyny.getZawodnicyDruzynyKomputera() : Druzyny.getZawodnicyDruzynyGracza()))
+				.silaStrzelca(getSilaGracza((druzynaAtakujaca.equals(NazwaDruzyny.KOMPUTER)) ? Druzyny.getZawodnicyDruzynyKomputera() : Druzyny.getZawodnicyDruzynyGracza(), numerGracza))
+				.silaBramkarza(getSilaBramkarza((druzynaAtakujaca.equals(NazwaDruzyny.KOMPUTER)) ? Druzyny.getZawodnicyDruzynyGracza() : Druzyny.getZawodnicyDruzynyKomputera()))
 				.build();
 	}
 }
