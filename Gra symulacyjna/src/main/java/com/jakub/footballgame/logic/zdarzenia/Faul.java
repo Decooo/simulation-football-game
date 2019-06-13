@@ -26,9 +26,9 @@ public class Faul implements Zdarzenie {
 
 	@Override
 	public IEfekt efektZdarzenia() {
-		int randomNumer = ThreadLocalRandom.current().nextInt(1, 11);
-		if (randomNumer < 4) return new ZoltaKartka(druzynaAtakujaca, numerGracza);
-		else if (randomNumer < 5)
+		int randomNumer = ThreadLocalRandom.current().nextInt(1, 20);
+		if (randomNumer < 7) return new ZoltaKartka(druzynaAtakujaca, numerGracza);
+		else if (randomNumer < 8)
 			return new CzerwonaKartka(druzynaAtakujaca, numerGracza);
 		else return new EfektFaulu(druzynaAtakujaca, numerGracza);
 	}
