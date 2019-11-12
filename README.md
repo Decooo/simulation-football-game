@@ -19,9 +19,11 @@ Projekt wykonany został w technologii Java 8. Interfejs użytkownika stworzony 
 
 W aplikacji zostały wykorzystane 3 wzorce projektowe:
 
-Builder – do tworzenia obiektu z danymi zdarzenia
-Prosta Fabryka – do tworzenia zdarzeń meczowych
-Strategia – do ustalania  efektu danego zdarzenia
+*Builder – do tworzenia obiektu z danymi zdarzenia
+
+*Prosta Fabryka – do tworzenia zdarzeń meczowych
+
+*Strategia – do ustalania  efektu danego zdarzenia
 
 ### Poradnik użytkownika:
 
